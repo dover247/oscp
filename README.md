@@ -1,4 +1,4 @@
-# OSCP & Methology
+# OSCP & Methodology
 
 *The following sequence should be followed accordingly if applicable to conduct an oragnaized penetration test to avoid rabbit holes for the OSCP*
 
