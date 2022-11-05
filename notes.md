@@ -1,4 +1,4 @@
-# TheScriptKid's Notes
+# All Notes
 
 **Get Proof Details From Original Location & Screenshot**
 
