@@ -134,7 +134,7 @@ IconIndex=1
 Run Responder to capture hashes
 
 ```
-/opt/Responder-3.1.3.0/Responder.py -I tun0```
+/opt/Responder-3.1.3.0/Responder.py -I tun0
 ```
 
 #### Test for read / upload access
