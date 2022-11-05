@@ -1,4 +1,4 @@
-# TheScriptKid's Penetration Testing Methodology
+# TheScriptKid's Notes
 
 **Get Proof Details From Original Location & Screenshot**
 
