@@ -10,106 +10,6 @@ _The following sequence should be followed accordingly if applicable to conduct 
 rscan $ip
 ```
 
-### Web Application Testing
-
-#### Source Code Review
-
-Review source code and Page Contents With Burp Suite/Site Map. Add Target Scope under Target > Scope > Add
-
-View Landing Page /
-
-Add domain or hostname to Kali /etc/hosts file and review landing page /
-
-#### General Scoping
-
-* Discover Potential Filename patterns for custom bruteforcing directories and files.
-* Discover usernames or email addresses with exiftool after downloading.
-* Discover HTTP Server Version.
-* Discover JavaScript Version.
-* Search For JavaScript Known Version Vulnerabilities.
-* Discover Web Application Name.
-* Discover Web Application Version.
-* Search For Web Application Known Version Vulnerabilities.
-* check certificate if applicable.
-* Discover Admin Login pages.
-* Test For default credentials.
-* Discover User Logins.
-* Discover User Registrations.
-
-#### Bruteforce Directories and Files
-
-Be sure to test both http and https
-
-Directories
-
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt -u http://$ip/FUZZ/ -fc 404
-```
-
-Files
-
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files.txt -u http://$ip/FUZZ -fc 404
-```
-
-Words
-
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words-lowercase.txt -u http://$ip/FUZZ -fc 404
-```
-
-Extensions
-
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -u http://$ip/somedir/FUZZ.someExtension -fc 404
-```
-
-#### Hidden parameter discovery
-
-Test for hidden paremeters on found endpoints or files
-
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u http://$ip/somefile?FUZZ=../../../../../../etc/passwd -v -fc 404 | grep URL
-```
-
-#### Retrieve Response Headers
-
-Search headers such as _X-Powered-By_. This may reveal vulnerble versioning
-
-```
-curl -I http://$ip/
-```
-
-#### Run Nikto Vulnerability Scanner
-
-```
-nikto -h http://$ip
-```
-
-#### Command Injection
-
-#### Local File inclusion
-
-#### Remote File inclusion
-
-#### SQL injection
-
-**Authentication Bypass**
-
-Manually confirm the results to then filter out unwanted responses by using --hh
-
-```
-wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/quick-SQLi.txt -d "form" --hc 404 $url
-```
-
-```
-wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404 $url
-```
-
-#### XXE
-
-#### XSS
-
 ### RPC Testing
 
 #### Test For PrintNightmare
@@ -279,6 +179,106 @@ Extract meta data and may contain email addresses\*
 exiftool file
 ```
 
+### Web Application Testing
+
+#### Source Code Review
+
+Review source code and Page Contents With Burp Suite/Site Map. Add Target Scope under Target > Scope > Add
+
+View Landing Page /
+
+Add domain or hostname to Kali /etc/hosts file and review landing page /
+
+#### General Scoping
+
+* Discover Potential Filename patterns for custom bruteforcing directories and files.
+* Discover usernames or email addresses with exiftool after downloading.
+* Discover HTTP Server Version.
+* Discover JavaScript Version.
+* Search For JavaScript Known Version Vulnerabilities.
+* Discover Web Application Name.
+* Discover Web Application Version.
+* Search For Web Application Known Version Vulnerabilities.
+* check certificate if applicable.
+* Discover Admin Login pages.
+* Test For default credentials.
+* Discover User Logins.
+* Discover User Registrations.
+
+#### Bruteforce Directories and Files
+
+Be sure to test both http and https
+
+Directories
+
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt -u http://$ip/FUZZ/ -fc 404
+```
+
+Files
+
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files.txt -u http://$ip/FUZZ -fc 404
+```
+
+Words
+
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words-lowercase.txt -u http://$ip/FUZZ -fc 404
+```
+
+Extensions
+
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -u http://$ip/somedir/FUZZ.someExtension -fc 404
+```
+
+#### Hidden parameter discovery
+
+Test for hidden paremeters on found endpoints or files
+
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u http://$ip/somefile?FUZZ=../../../../../../etc/passwd -v -fc 404 | grep URL
+```
+
+#### Retrieve Response Headers
+
+Search headers such as _X-Powered-By_. This may reveal vulnerble versioning
+
+```
+curl -I http://$ip/
+```
+
+#### Run Nikto Vulnerability Scanner
+
+```
+nikto -h http://$ip
+```
+
+#### Command Injection
+
+#### Local File inclusion
+
+#### Remote File inclusion
+
+#### SQL injection
+
+**Authentication Bypass**
+
+Manually confirm the results to then filter out unwanted responses by using --hh
+
+```
+wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/quick-SQLi.txt -d "form" --hc 404 $url
+```
+
+```
+wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404 $url
+```
+
+#### XXE
+
+#### XSS
+
 ### Active Directory Testing (No Creds)
 
 #### Test for zeroLogon
@@ -301,7 +301,7 @@ ldapenum -d $domain
 ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
 ```
 
-#### Test for UF\_DONT\_REQUIRE\_PREAUTH
+#### Test for UF DONT REQUIRE PREAUTH
 
 ```
 GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
