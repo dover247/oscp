@@ -7,7 +7,7 @@ _The following sequence should be followed accordingly if applicable to conduct 
 ### Verify All Open TCP Ports
 
 ```
-rscan $ip
+rustscan --accessible -u 5000 -b 2500 -a $ip  -- -Pn -A
 ```
 
 ### FTP Testing
@@ -183,16 +183,26 @@ smbclient //$ip/someshare -U 'validuser' -p 'validpass'
 
 #### Test for information disclosure
 
+Dump All ( Null Authentication )
+
+```
+ldapsearch -v -H 'ldap://$ip' -x -D '' -w '' -b 'DC=domain,DC=local'
+```
+
+Dump All ( Anonymous Authentication )
+
+```
+ldapsearch -v -H 'ldap://$ip' -x -b 'DC=domain,DC=local'
+```
+
+Automated query
+
+```
+ldapenum -d $domain -u "" -p ""
+```
+
 ```
 ldapenum -d $domain
-```
-
-```
-ldapsearch -v -x -b "DC=domain,DC=local" -H "ldap://$ip" "(objectclass=*)"
-```
-
-```
-windapsearch --dc-ip $ip -u "" -U
 ```
 
 #### Test for zeroLogon
@@ -257,9 +267,8 @@ hashcat -d 2 krb5tgs.txt -m 13100 -a 0 /usr/share/wordlists/rockyou.txt
 #### Test for information disclosure
 
 ```
-ldapenum -d $domain -u user -p password
+ldapsearch -v -H 'ldap://$ip' -x -D 'USER NAME' -w 'PASSWORD' -b 'DC=domain,DC=local'
 ```
-
 
 #### Password Spraying
 
@@ -864,6 +873,8 @@ Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.identityreferencename
 ```
 Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.ActiveDirectoryRights -like "*GenericAll*"} | Where-Object {$_.identityreferenceclass -ne "computer"}
 ```
+
+
 
 ##### Write DACL
 
