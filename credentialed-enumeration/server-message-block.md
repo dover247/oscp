@@ -1,6 +1,6 @@
 # Server Message Block
 
-#### Password Spraying
+### Password Spraying
 
 _CrackMapExec_
 

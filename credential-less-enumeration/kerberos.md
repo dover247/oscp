@@ -1,6 +1,6 @@
 # Kerberos
 
-#### Enumerate Users
+### User Discovery
 
 _Compile usernames_
 
@@ -16,7 +16,7 @@ kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $do
 ```
 {% endcode %}
 
-#### Test for UF DONT REQUIRE PREAUTH
+### UF DONT REQUIRE PREAUTH
 
 {% code overflow="wrap" %}
 ```

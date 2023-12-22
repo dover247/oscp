@@ -1,6 +1,6 @@
 # Lightweight Directory Access Protocol
 
-#### Test for information disclosure
+### Information disclosure
 
 {% code overflow="wrap" %}
 ```
@@ -8,7 +8,7 @@ ldapsearch -v -H 'ldap://$ip' -x -D 'USER@DOMAIN.LOCAL' -w 'PASSWORD' -b 'DC=dom
 ```
 {% endcode %}
 
-#### Bloodhound Hunting
+### Bloodhound Hunting
 
 ```
 bloodhound-python -u username -p password  -d $domain -ns $ip -c all

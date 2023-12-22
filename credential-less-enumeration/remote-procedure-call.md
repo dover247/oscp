@@ -1,6 +1,6 @@
 # Remote Procedure Call
 
-#### Test For Print Nightmare
+### Print Nightmare
 
 ```
 rpcdump.py @$ip | egrep 'MS-RPRN|MS-PAR'

@@ -1,6 +1,6 @@
 # Lightweight Directory Access Protocol
 
-#### Test for information disclosure
+### Information disclosure
 
 _Dump All ( Null Authentication )_
 

