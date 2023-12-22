@@ -1,4 +1,17 @@
 # Table of contents
 
-* [OSCP & Methodology](README.md)
+* [OSCP Methodology & Notes](README.md)
+* [Port Scanning](port-scanning.md)
+* [No Credential Enumeration](no-credential-enumeration/README.md)
+  * [File Transfer Protocol](no-credential-enumeration/file-transfer-protocol.md)
+  * [Remote Procedure Call](no-credential-enumeration/remote-procedure-call.md)
+  * [Server Message Block](no-credential-enumeration/server-message-block.md)
+  * [Simple Network Management Protocol](no-credential-enumeration/simple-network-management-protocol.md)
+  * [Lightweight Directory Access Protocol](no-credential-enumeration/lightweight-directory-access-protocol.md)
+  * [Netlogon Remote Protocol](no-credential-enumeration/netlogon-remote-protocol.md)
+  * [Kerberos](no-credential-enumeration/kerberos.md)
+* [Credentialed Enumeration](credentialed-enumeration/README.md)
+  * [Server Message Block](credentialed-enumeration/server-message-block.md)
+  * [Lightweight Directory Access Protocol](credentialed-enumeration/lightweight-directory-access-protocol.md)
+  * [Kerberos](credentialed-enumeration/kerberos.md)
 * [All Notes](notes.md)

