@@ -1,7 +1,8 @@
 ---
 description: >-
   The following sequence should be followed accordingly if applicable to conduct
-  an organized penetration test to avoid rabbit holes for the OSCP.
+  an organized penetration test to avoid rabbit holes for the OSCP. (Undergoing
+  Maintenance)
 ---
 
 # OSCP Methodology & Notes
