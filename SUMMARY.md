@@ -1,6 +1,7 @@
 # Table of contents
 
 * [OSCP Methodology & Notes](README.md)
+* [All Notes](notes.md)
 * [Port Scanning](port-scanning.md)
 * [Credential-less Enumeration](credential-less-enumeration/README.md)
   * [File Transfer Protocol](credential-less-enumeration/file-transfer-protocol.md)
@@ -15,7 +16,3 @@
   * [Server Message Block](credentialed-enumeration/server-message-block.md)
   * [Lightweight Directory Access Protocol](credentialed-enumeration/lightweight-directory-access-protocol.md)
   * [Kerberos](credentialed-enumeration/kerberos.md)
-* [All Notes](notes.md)
-* [Page 2](page-2.md)
-* [Page 1](page-1.md)
-* [Page](page.md)
