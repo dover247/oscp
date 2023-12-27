@@ -24,4 +24,4 @@
   * [Linux](privilege-escalation/linux.md)
   * [Windows](privilege-escalation/windows.md)
 * [Windows Active Directory](windows-active-directory.md)
-* [All Notes](notes-1.md)
+* [All Notes](notes.md)
