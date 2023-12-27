@@ -1,3 +1,7 @@
+---
+description: These are all the notes in one place unorganized
+---
+
 # All Notes
 
 **Get Proof Details From Original Location & Screenshot**
