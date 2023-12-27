@@ -1,9 +1,8 @@
-# Port Scanning
+---
+description: >-
+  These notes represent my evolving knowledge bank, cultivated and expanding
+  throughout my ongoing expedition in the realm of penetration testing.
+---
 
+# Notes
 
-
-### Verify All Open TCP Ports
-
-```
-rustscan --accessible -u 5000 -b 2500 -a $ip  -- -Pn -A
-```
