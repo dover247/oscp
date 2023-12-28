@@ -18,7 +18,7 @@ kerbrute userenum /usr/share/wordlists/seclists/Usernames/Names/names.txt -d $do
 
 ### Asreproasting
 
-_UF DONT REQUIRE PREAUTH_
+_uf dont require preauth_
 
 {% code overflow="wrap" %}
 ```
