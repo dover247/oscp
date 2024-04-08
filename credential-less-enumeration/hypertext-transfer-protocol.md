@@ -34,7 +34,15 @@ _Browse to the `https://$ip/` and view the certificate_
 curl -IL $webserver
 ```
 
-### Fuzzing Vhosts
+### Fuzzing Sub-domains
+
+{% code overflow="wrap" %}
+```
+ffuf -w /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u https://FUZZ.domain.com/
+```
+{% endcode %}
+
+### Fuzzing VHOSTs
 
 {% code overflow="wrap" %}
 ```
