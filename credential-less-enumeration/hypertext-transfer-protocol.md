@@ -134,12 +134,6 @@ _Search headers such as X-Powered-By. This may reveal vulnerable versioning_
 curl -I http://$ip/
 ```
 
-### Nikto Vulnerability Scanner
-
-```
-nikto -h http://$ip
-```
-
 ### Command Injection
 
 ### Local File inclusion
@@ -181,3 +175,9 @@ wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404
 ### XXE
 
 ### XSS
+
+### Nikto Vulnerability Scanner
+
+```
+nikto -h http://$ip
+```
