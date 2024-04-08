@@ -34,9 +34,25 @@ _Browse to the `https://$ip/` and view the certificate_
 curl -IL $webserver
 ```
 
-### Bruteforce Directories and Files
+### Fuzzing Vhosts
+
+{% code overflow="wrap" %}
+```
+ffuf -w /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u http://domain.com/ -H 'Host: FUZZ.domain.com' -fs xxx
+```
+{% endcode %}
+
+### Fuzzing Directories  Files Parameters
 
 _Be sure to test both http and https_
+
+_Extensions_
+
+{% code overflow="wrap" %}
+```
+ffuf -w /opt/useful/SecLists/Discovery/Web-Content/web-extensions.txt -u http://domain.com/somedir/indexFUZZ -fc 404
+```
+{% endcode %}
 
 _Directories_
 
@@ -66,29 +82,39 @@ ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files-low
 ```
 {% endcode %}
 
-_Words_
+_Parameters_
+
+GET
+
+{% code overflow="wrap" %}
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u http://$ip/somefile?FUZZ=key
+```
+{% endcode %}
+
+POST
+
+{% code overflow="wrap" %}
+```
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u http://domain.com/path/to/resource.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
+```
+{% endcode %}
+
+_Values_
+
+_values can be for example usernames, names, id's_
+
+{% code overflow="wrap" %}
+```
+ffuf -w values.txt -u http://domain.com/path/to/resource.php -X POST -d 'someParameter=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
+```
+{% endcode %}
+
+_Random_
 
 {% code overflow="wrap" %}
 ```
 ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words-lowercase.txt -u http://$ip/FUZZ -fc 404
-```
-{% endcode %}
-
-_Extensions_
-
-{% code overflow="wrap" %}
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-words.txt -u http://$ip/somedir/FUZZ.someExtension -fc 404
-```
-{% endcode %}
-
-### Hidden parameter discovery
-
-_Test for hidden parameters on found endpoints or files_
-
-{% code overflow="wrap" %}
-```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u http://$ip/somefile?FUZZ=../../../../../../etc/passwd -v -fc 404 | grep URL
 ```
 {% endcode %}
 
