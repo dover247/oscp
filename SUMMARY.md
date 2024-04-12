@@ -8,6 +8,7 @@
   * [File Transfer Protocol](credential-less-enumeration/file-transfer-protocol.md)
   * [Domain Name Service](credential-less-enumeration/domain-name-service.md)
   * [Hypertext Transfer Protocol](credential-less-enumeration/hypertext-transfer-protocol.md)
+  * [Internet Message Access Protocol / Post Office Protocol](credential-less-enumeration/internet-message-access-protocol-post-office-protocol.md)
   * [Kerberos](credential-less-enumeration/kerberos.md)
   * [Remote Procedure Call](credential-less-enumeration/remote-procedure-call.md)
   * [Server Message Block](credential-less-enumeration/server-message-block.md)

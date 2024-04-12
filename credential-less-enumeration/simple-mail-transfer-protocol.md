@@ -1,6 +1,34 @@
 # Simple Mail Transfer Protocol
 
-#### Enumerate users
+<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+
+## Footprinting The Service
+
+### **Nmap**
+
+{% code overflow="wrap" %}
+```
+sudo nmap 10.129.14.128 -sC -sV -p25
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+
+### **Nmap - Open Relay**
+
+{% code overflow="wrap" %}
+```
+sudo nmap 10.129.14.128 -p25 --script smtp-open-relay -v
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+
+## Enumerate users
+
+Response codes from smtp servers may vary example code 250 & 252 is considered a valid user and smtp-user-enum checks only for 250
 
 Without Domain
 
