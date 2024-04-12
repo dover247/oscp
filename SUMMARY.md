@@ -17,6 +17,7 @@
   * [Netlogon Remote Protocol](credential-less-enumeration/netlogon-remote-protocol.md)
   * [Network File Share](credential-less-enumeration/network-file-share.md)
   * [Remote Desktop Protocol](credential-less-enumeration/remote-desktop-protocol.md)
+  * [My Structured Query Language](credential-less-enumeration/my-structured-query-language.md)
 * [Credentialed Enumeration](credentialed-enumeration/README.md)
   * [Secure Shell](credentialed-enumeration/secure-shell.md)
   * [Server Message Block](credentialed-enumeration/server-message-block.md)
