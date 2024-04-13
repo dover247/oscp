@@ -26,8 +26,9 @@ mysql -u root -pP4SSw0rd -h 10.129.14.128
 
 ### Commands
 
-| `mysql -u <user> -p<password> -h <IP address>`       | Connect to the MySQL server. There should **not** be a space between the '-p' flag, and the password. |
+| Command                                              | Description                                                                                           |
 | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `mysql -u <user> -p<password> -h <IP address>`       | Connect to the MySQL server. There should **not** be a space between the '-p' flag, and the password. |
 | `show databases;`                                    | Show all databases.                                                                                   |
 | `use <database>;`                                    | Select one of the existing databases.                                                                 |
 | `show tables;`                                       | Show all available tables in the selected database.                                                   |

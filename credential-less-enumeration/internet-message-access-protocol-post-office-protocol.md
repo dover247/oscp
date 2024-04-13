@@ -86,8 +86,9 @@ f fetch 1:* BODY[]
 
 ## Dangerous Settings
 
-| `auth_debug`              | Enables all authentication debug logging.                                                 |
+| Setting                   | Description                                                                               |
 | ------------------------- | ----------------------------------------------------------------------------------------- |
+| `auth_debug`              | Enables all authentication debug logging.                                                 |
 | `auth_debug_passwords`    | This setting adjusts log verbosity, the submitted passwords, and the scheme gets logged.  |
 | `auth_verbose`            | Logs unsuccessful authentication attempts and their reasons.                              |
 | `auth_verbose_passwords`  | Passwords used for authentication are logged and can also be truncated.                   |

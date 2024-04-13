@@ -2,12 +2,13 @@
 
 ## MSSQL Databases
 
-| `master`   | Tracks all system information for an SQL server instance                                                                                                                                               |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `model`    | Template database that acts as a structure for every new database created. Any setting changed in the model database will be reflected in any new database created after changes to the model database |
-| `msdb`     | The SQL Server Agent uses this database to schedule jobs & alerts                                                                                                                                      |
-| `tempdb`   | Stores temporary objects                                                                                                                                                                               |
-| `resource` | Read-only database containing system objects included with SQL server                                                                                                                                  |
+| Default System Database | Description                                                                                                                                                                                            |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `master`                | Tracks all system information for an SQL server instance                                                                                                                                               |
+| `model`                 | Template database that acts as a structure for every new database created. Any setting changed in the model database will be reflected in any new database created after changes to the model database |
+| `msdb`                  | The SQL Server Agent uses this database to schedule jobs & alerts                                                                                                                                      |
+| `tempdb`                | Stores temporary objects                                                                                                                                                                               |
+| `resource`              | Read-only database containing system objects included with SQL server                                                                                                                                  |
 
 ## Footprinting The Service
 
@@ -33,6 +34,7 @@ python3 mssqlclient.py Administrator@10.129.201.248 -windows-auth
 
 ## MSSQL Commands
 
-| `SELECT name FROM sys.databases` | Lists all databases on the SQL Server.    |
+| Query                            | Description                               |
 | -------------------------------- | ----------------------------------------- |
+| `SELECT name FROM sys.databases` | Lists all databases on the SQL Server.    |
 | `SELECT * FROM sys.tables`       | Lists all tables in the current database. |

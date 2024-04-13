@@ -22,8 +22,9 @@ rpcclient -U "" 10.129.14.128
 
 <figure><img src="../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-| `srvinfo`                 | Server information.                                                |
+| Query                     | Description                                                        |
 | ------------------------- | ------------------------------------------------------------------ |
+| `srvinfo`                 | Server information.                                                |
 | `enumdomains`             | Enumerate all domains that are deployed in the network.            |
 | `querydominfo`            | Provides domain, server, and user information of deployed domains. |
 | `netshareenumall`         | Enumerates all available shares.                                   |
@@ -139,8 +140,9 @@ smbclient //$ip/someshare -U 'validuser' -p 'validpass'
 
 ## Dangerous Settings
 
-| `browseable = yes`          | Allow listing available shares in the current share?                |
+| Setting                     | Description                                                         |
 | --------------------------- | ------------------------------------------------------------------- |
+| `browseable = yes`          | Allow listing available shares in the current share?                |
 | `read only = no`            | Forbid the creation and modification of files?                      |
 | `writable = yes`            | Allow users to create and modify files?                             |
 | `guest ok = yes`            | Allow connecting to the service without using a password?           |

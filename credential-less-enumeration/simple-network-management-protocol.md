@@ -36,7 +36,8 @@ braa <community string>@<IP>:.1.3.6.*
 
 ## Dangerous Settings
 
-| `rwuser noauth`                                  | Provides access to the full OID tree without authentication.                          |
+| Settings                                         |                                                                                       |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `rwuser noauth`                                  | Provides access to the full OID tree without authentication.                          |
 | `rwcommunity <community string> <IPv4 address>`  | Provides access to the full OID tree regardless of where the requests were sent from. |
 | `rwcommunity6 <community string> <IPv6 address>` | Same access as with `rwcommunity` with the difference of using IPv6.                  |
