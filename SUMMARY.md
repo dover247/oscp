@@ -20,6 +20,7 @@
   * [My Structured Query Language](credential-less-enumeration/my-structured-query-language.md)
   * [Microsoft Structured Query Language](credential-less-enumeration/microsoft-structured-query-language.md)
   * [Oracle Transparent Network Substrate](credential-less-enumeration/oracle-transparent-network-substrate.md)
+  * [Intelligent Platform Management Interface](credential-less-enumeration/intelligent-platform-management-interface.md)
 * [Credentialed Enumeration](credentialed-enumeration/README.md)
   * [Secure Shell](credentialed-enumeration/secure-shell.md)
   * [Server Message Block](credentialed-enumeration/server-message-block.md)
