@@ -19,6 +19,7 @@
   * [Remote Desktop Protocol](credential-less-enumeration/remote-desktop-protocol.md)
   * [My Structured Query Language](credential-less-enumeration/my-structured-query-language.md)
   * [Microsoft Structured Query Language](credential-less-enumeration/microsoft-structured-query-language.md)
+  * [Oracle Transparent Network Substrate](credential-less-enumeration/oracle-transparent-network-substrate.md)
 * [Credentialed Enumeration](credentialed-enumeration/README.md)
   * [Secure Shell](credentialed-enumeration/secure-shell.md)
   * [Server Message Block](credentialed-enumeration/server-message-block.md)

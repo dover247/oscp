@@ -42,7 +42,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Authenticating
 
@@ -52,7 +52,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Listing
 
@@ -62,7 +62,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Selecting For Use
 
@@ -72,7 +72,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Fetching All Messages
 
@@ -82,7 +82,7 @@ f fetch 1:* BODY[]
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption><p>In This Case Only 1 Message was in the Inbox</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption><p>In This Case Only 1 Message was in the Inbox</p></figcaption></figure>
 
 ## Dangerous Settings
 
