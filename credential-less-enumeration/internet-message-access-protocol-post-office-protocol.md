@@ -42,7 +42,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Authenticating
 
@@ -52,7 +52,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Listing
 
@@ -62,7 +62,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Selecting For Use
 

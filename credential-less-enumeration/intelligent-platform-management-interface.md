@@ -10,7 +10,7 @@ sudo nmap -sU --script ipmi-version -p 623 ilo.inlanfreight.local
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Default Credentials
 
@@ -22,5 +22,5 @@ sudo nmap -sU --script ipmi-version -p 623 ilo.inlanfreight.local
 
 ## **Metasploit Dumping Hashes**
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>We can turn to a flaw in the RAKP protocol in IPMI 2.0 with Metasploit's <em>IPMI 2.0 RAKP Remote SHA1 Password Hash</em> Retrieval module</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>We can turn to a flaw in the RAKP protocol in IPMI 2.0 with Metasploit's <em>IPMI 2.0 RAKP Remote SHA1 Password Hash</em> Retrieval module</p></figcaption></figure>
 
