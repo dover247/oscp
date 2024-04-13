@@ -20,7 +20,7 @@ sudo nmap --script ms-sql-info,ms-sql-empty-password,ms-sql-xp-cmdshell,ms-sql-c
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (10) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Connecting with Mssqlclient.py**
 
@@ -30,7 +30,7 @@ python3 mssqlclient.py Administrator@10.129.201.248 -windows-auth
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## MSSQL Commands
 

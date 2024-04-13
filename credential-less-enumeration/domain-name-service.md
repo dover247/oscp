@@ -1,6 +1,6 @@
 # Domain Name Service
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Footprinting the Service
 
@@ -12,7 +12,7 @@ dig ns inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (9) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - Version Query**
 
