@@ -20,7 +20,7 @@ showmount -e 10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Mounting NFS Shares
 
@@ -48,7 +48,7 @@ tree .
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## **List Contents with Usernames & Group Names**
 
@@ -56,7 +56,7 @@ tree .
 ls -l mnt/nfs/
 ```
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## **List Contents with UIDs & GUIDs**
 
@@ -64,7 +64,7 @@ ls -l mnt/nfs/
 ls -n mnt/nfs/
 ```
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Unmounting Share
 
