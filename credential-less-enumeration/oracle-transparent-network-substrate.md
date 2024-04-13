@@ -64,7 +64,7 @@ sqlplus scott/tiger@10.129.204.235/XE
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption><p>You can also attempt to append "as sysdba" for higher privileges</p></figcaption></figure>
 
 If you come across the following error <mark style="color:red;">sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory</mark> execute the following command
 
@@ -86,7 +86,7 @@ sqlplus scott/tiger@10.129.204.235/XE as sysdba
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption><p>Try using the valid account to log in as the System Database Admin (<code>sysdba</code>), giving higher privileges. This is possible when the user has the appropriate privileges typically granted by the database administrator.</p></figcaption></figure>
 
 ### **Oracle RDBMS - Extract Password Hashes**
 
