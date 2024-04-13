@@ -22,6 +22,7 @@
   * [Oracle Transparent Network Substrate](credential-less-enumeration/oracle-transparent-network-substrate.md)
   * [Intelligent Platform Management Interface](credential-less-enumeration/intelligent-platform-management-interface.md)
   * [Rsync](credential-less-enumeration/rsync.md)
+  * [R-Services](credential-less-enumeration/r-services.md)
 * [Credentialed Enumeration](credentialed-enumeration/README.md)
   * [Secure Shell](credentialed-enumeration/secure-shell.md)
   * [Server Message Block](credentialed-enumeration/server-message-block.md)
