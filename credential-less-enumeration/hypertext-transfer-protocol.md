@@ -24,6 +24,22 @@ _Add domain or hostname to Kali /etc/hosts file and review landing page /_
 * _Discover User Logins._
 * _Discover User Registrations._
 
+## Screenshot Inspection
+
+### Aquatone
+
+{% code overflow="wrap" %}
+```
+wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_arm64_1.7.0.zip
+```
+{% endcode %}
+
+```
+cat facebook_aquatone.txt | aquatone -out ./aquatone -screenshot-timeout 1000
+```
+
+<figure><img src="../.gitbook/assets/image (32).png" alt=""><figcaption><p>tool for automatic and visual inspection of websites across many hosts and is convenient for quickly gaining an overview of HTTP-based attack surfaces by scanning a list of configurable ports, visiting the website with a headless Chrome browser, and taking a screenshot.</p></figcaption></figure>
+
 ### View Certificate Information
 
 _Browse to the `https://$ip/` and view the certificate_
