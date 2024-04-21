@@ -14,7 +14,7 @@ git clone https://github.com/jtesta/ssh-audit.git && cd ssh-audit
 ./ssh-audit.py 10.129.14.132
 ```
 
-<figure><img src="../.gitbook/assets/image (23).png" alt=""><figcaption><p>ssh-audit checks the client-side and server-side configuration &#x26; general information and which encryption algorithms are still used by the client and server. This could be exploited by attacking the server or client at the cryptic level later</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (23) (1).png" alt=""><figcaption><p>ssh-audit checks the client-side and server-side configuration &#x26; general information and which encryption algorithms are still used by the client and server. This could be exploited by attacking the server or client at the cryptic level later</p></figcaption></figure>
 
 ### Bruteforce with hydra
 

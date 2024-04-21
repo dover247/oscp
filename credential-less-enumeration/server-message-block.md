@@ -10,7 +10,7 @@ sudo nmap 10.129.14.128 -sV -sC -p139,445
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (17) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### RPCclient
 
@@ -20,7 +20,7 @@ rpcclient -U "" 10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (18) (1).png" alt=""><figcaption></figcaption></figure>
 
 | Query                     | Description                                                        |
 | ------------------------- | ------------------------------------------------------------------ |

@@ -10,7 +10,7 @@ sudo nmap 10.129.14.128 -sV -p110,143,993,995 -sC
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Curl
 
@@ -20,7 +20,7 @@ curl -k 'imaps://10.129.14.128' --user user:p4ssw0rd
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -28,9 +28,9 @@ curl -k 'imaps://10.129.14.128' --user cry0l1t3:1234 -v
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (14).png" alt=""><figcaption><p>Verbosity to show CN &#x26; domain &#x26; Versioning</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14) (1).png" alt=""><figcaption><p>Verbosity to show CN &#x26; domain &#x26; Versioning</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Reading Messages
 
@@ -42,7 +42,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Authenticating
 
@@ -52,7 +52,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Listing
 
@@ -62,7 +62,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (5) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Selecting For Use
 
@@ -72,7 +72,7 @@ openssl s_client -connect 10.129.14.128:imaps
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Fetching All Messages
 
@@ -82,7 +82,7 @@ f fetch 1:* BODY[]
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption><p>In This Case Only 1 Message was in the Inbox</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1) (1).png" alt=""><figcaption><p>In This Case Only 1 Message was in the Inbox</p></figcaption></figure>
 
 ## Dangerous Settings
 

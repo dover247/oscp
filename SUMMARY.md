@@ -41,4 +41,6 @@
   * [Overpass The Hash](windows-active-directory/overpass-the-hash.md)
   * [Object Scoping](windows-active-directory/object-scoping.md)
   * [Pass The Ticket](windows-active-directory/pass-the-ticket.md)
+* [Tricks](tricks/README.md)
+  * [File Transfers](tricks/file-transfers.md)
 * [All Notes](notes.md)

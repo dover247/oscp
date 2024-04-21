@@ -1,6 +1,6 @@
 # Domain Name Service
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Footprinting the Service
 
@@ -12,7 +12,7 @@ dig ns inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (9) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - Version Query**
 
@@ -22,7 +22,7 @@ dig CH TXT version.bind 10.129.120.85
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (11) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (11) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - ANY Query**
 
@@ -32,7 +32,7 @@ dig any inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (12) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### DIG - AXFR Zone Transfer
 
@@ -42,7 +42,7 @@ dig axfr inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (13) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - AXFR Zone Transfer - Internal**
 
@@ -52,7 +52,7 @@ dig axfr internal.inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (14) (1).png" alt=""><figcaption><p>Using subdomain internal from previous zone transfer on inlanefreight.htb</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14) (1) (1).png" alt=""><figcaption><p>Using subdomain internal from previous zone transfer on inlanefreight.htb</p></figcaption></figure>
 
 ### **Subdomain Brute Forcing**
 
@@ -64,7 +64,7 @@ dnsenum --dnsserver 10.129.14.128 --enum -p 0 -s 0 -o subdomains.txt -f /opt/use
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (15) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### dnsrecon
 
@@ -76,11 +76,11 @@ dnsrecon -r 127.0.0.1 -n 127.0.1.1
 
 ### virustotal
 
-<figure><img src="../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (25) (1).png" alt=""><figcaption></figcaption></figure>
 
 <div align="center">
 
-<figure><img src="../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (26) (1).png" alt=""><figcaption></figcaption></figure>
 
 </div>
 
@@ -92,9 +92,9 @@ Another source of information we can use to extract subdomains is SSL/TLS certif
 
 A project that requires every SSL/TLS certificate issued by a Certificate Authority (CA) to be published in a publicly accessible log
 
-<figure><img src="../.gitbook/assets/image (27).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (27) (1).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (28).png" alt=""><figcaption><p>perform a curl request to the target website asking for a JSON output as this is more manageable</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (28) (1).png" alt=""><figcaption><p>perform a curl request to the target website asking for a JSON output as this is more manageable</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
