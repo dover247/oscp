@@ -1,6 +1,6 @@
 # Domain Name Service
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Footprinting the Service
 
@@ -12,7 +12,7 @@ dig ns inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (9) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - Version Query**
 
@@ -22,7 +22,7 @@ dig CH TXT version.bind 10.129.120.85
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (11) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (11) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - ANY Query**
 
@@ -32,7 +32,7 @@ dig any inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (12) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### DIG - AXFR Zone Transfer
 
@@ -42,7 +42,7 @@ dig axfr inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (13) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DIG - AXFR Zone Transfer - Internal**
 
