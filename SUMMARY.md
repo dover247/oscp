@@ -43,4 +43,5 @@
   * [Pass The Ticket](windows-active-directory/pass-the-ticket.md)
 * [Tricks](tricks/README.md)
   * [File Transfers](tricks/file-transfers.md)
+  * [Shells & Payloads](tricks/shells-and-payloads.md)
 * [All Notes](notes.md)
