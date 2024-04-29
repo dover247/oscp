@@ -44,4 +44,5 @@
 * [Tricks](tricks/README.md)
   * [File Transfers](tricks/file-transfers.md)
   * [Shells & Payloads](tricks/shells-and-payloads.md)
+  * [Metasploit Framework](tricks/metasploit-framework.md)
 * [All Notes](notes.md)

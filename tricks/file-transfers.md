@@ -22,7 +22,7 @@ cat id_rsa |base64 -w 0;echo
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>cmd.exe has a maximum string length of 8,191 &#x26; powershell.exe has a maximum string length 2,147,483,647 characters</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>cmd.exe has a maximum string length of 8,191 &#x26; powershell.exe has a maximum string length 2,147,483,647 characters</p></figcaption></figure>
 
 ## Web Downloads with Wget & cURL
 
@@ -34,7 +34,7 @@ wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh -O /
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Fileless Download with wget**
 
@@ -54,7 +54,7 @@ curl -o /tmp/LinEnum.sh https://raw.githubusercontent.com/rebootuser/LinEnum/mas
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Fileless Download with cURL**
 

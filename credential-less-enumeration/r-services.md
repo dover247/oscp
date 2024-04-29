@@ -12,7 +12,7 @@
 
 ### .rhosts
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption><p>The .rhosts file contains a list of trusted hosts and is used to grant access to other systems on the network. When users on one of these hosts attempt to access the system, they are automatically granted access without further authentication.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>The .rhosts file contains a list of trusted hosts and is used to grant access to other systems on the network. When users on one of these hosts attempt to access the system, they are automatically granted access without further authentication.</p></figcaption></figure>
 
 > <mark style="color:red;">Note: The</mark> <mark style="color:red;"></mark><mark style="color:red;">`hosts.equiv`</mark> <mark style="color:red;"></mark><mark style="color:red;">file is recognized as the global configuration regarding all users on a system, whereas</mark> <mark style="color:red;"></mark><mark style="color:red;">`.rhosts`</mark> <mark style="color:red;"></mark><mark style="color:red;">provides a per-user configuration.</mark>
 

