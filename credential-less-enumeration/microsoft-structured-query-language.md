@@ -30,7 +30,7 @@ python3 mssqlclient.py Administrator@10.129.201.248 -windows-auth
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## MSSQL Commands
 

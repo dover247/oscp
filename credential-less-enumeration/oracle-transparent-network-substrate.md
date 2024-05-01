@@ -24,7 +24,7 @@ sudo pip3 install argcomplete && sudo activate-global-python-argcomplete
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Before we can enumerate the TNS listener and interact with it, we need to download a few packages and tools</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Before we can enumerate the TNS listener and interact with it, we need to download a few packages and tools</p></figcaption></figure>
 
 ### Nmap
 
@@ -34,7 +34,7 @@ sudo nmap -p1521 -sV 10.129.204.235 --open
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Nmap - SID Bruteforcing
 
@@ -44,7 +44,7 @@ sudo nmap -p1521 -sV 10.129.204.235 --open --script oracle-sid-brute
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **ODAT**
 
@@ -54,7 +54,7 @@ sudo nmap -p1521 -sV 10.129.204.235 --open --script oracle-sid-brute
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p> the <code>odat.py</code> tool to perform a variety of scans like retrieve database names, versions, running processes, user accounts, vulnerabilities, misconfigurations etc.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p> the <code>odat.py</code> tool to perform a variety of scans like retrieve database names, versions, running processes, user accounts, vulnerabilities, misconfigurations etc.</p></figcaption></figure>
 
 ### **SQLplus - Log In**
 
@@ -64,7 +64,7 @@ sqlplus scott/tiger@10.129.204.235/XE
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>You can also attempt to append "as sysdba" for higher privileges</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>You can also attempt to append "as sysdba" for higher privileges</p></figcaption></figure>
 
 If you come across the following error <mark style="color:red;">sqlplus: error while loading shared libraries: libsqlplus.so: cannot open shared object file: No such file or directory</mark> execute the following command
 
@@ -76,7 +76,7 @@ sudo sh -c "echo /usr/lib/oracle/12.2/client64/lib > /etc/ld.so.conf.d/oracle-in
 
 ### Oracle RDBMS - Interaction
 
-<figure><img src="../.gitbook/assets/image (5) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Oracle RDBMS - Database Enumeration**
 
@@ -86,7 +86,7 @@ sqlplus scott/tiger@10.129.204.235/XE as sysdba
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6) (1) (1) (1) (1).png" alt=""><figcaption><p>Try using the valid account to log in as the System Database Admin (<code>sysdba</code>), giving higher privileges. This is possible when the user has the appropriate privileges typically granted by the database administrator.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Try using the valid account to log in as the System Database Admin (<code>sysdba</code>), giving higher privileges. This is possible when the user has the appropriate privileges typically granted by the database administrator.</p></figcaption></figure>
 
 ### **Oracle RDBMS - Extract Password Hashes**
 
@@ -96,7 +96,7 @@ select name, password from sys.user$;
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Oracle RDBMS - File Upload**
 
