@@ -10,7 +10,7 @@ sudo nmap -sU --script ipmi-version -p 623 ilo.inlanfreight.local
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Default Credentials
 

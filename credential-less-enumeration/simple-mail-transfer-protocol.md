@@ -1,6 +1,6 @@
 # Simple Mail Transfer Protocol
 
-<figure><img src="../.gitbook/assets/image (8) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Footprinting The Service
 
@@ -12,7 +12,7 @@ sudo nmap 10.129.14.128 -sC -sV -p25
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (9) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Nmap - Open Relay**
 

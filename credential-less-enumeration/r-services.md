@@ -32,7 +32,7 @@ rlogin 10.0.17.2 -l htb-student
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Listing Authenticated Users Using Rwho
 
@@ -40,7 +40,7 @@ rlogin 10.0.17.2 -l htb-student
 rwho
 ```
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Listing Authenticated Users Using Rusers
 
@@ -50,4 +50,4 @@ rusers -al 10.0.17.5
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>

