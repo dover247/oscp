@@ -24,7 +24,7 @@ sudo pip3 install argcomplete && sudo activate-global-python-argcomplete
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Before we can enumerate the TNS listener and interact with it, we need to download a few packages and tools</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption><p>Before we can enumerate the TNS listener and interact with it, we need to download a few packages and tools</p></figcaption></figure>
 
 ### Nmap
 
@@ -34,7 +34,7 @@ sudo nmap -p1521 -sV 10.129.204.235 --open
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### Nmap - SID Bruteforcing
 
@@ -44,7 +44,7 @@ sudo nmap -p1521 -sV 10.129.204.235 --open --script oracle-sid-brute
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### **ODAT**
 
