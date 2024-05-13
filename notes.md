@@ -2480,3 +2480,96 @@ use SessionID
 \=======
 
 > > > > > > > 6912adbe47a973e22839842f37be3ab4655a044d
+
+## Managing BitLocker Volumes on Linux
+
+BitLocker provides full volume encryption on Windows using TPM-stored AES keys. Linux, however, uses LUKS for encryption, which does not rely on TPM and encrypts the entire drive. To manage BitLocker volumes on Linux, ensure you have the right tools and follow these steps.
+
+### Prerequisites
+
+Ensure you have the following packages installed depending on your Linux distribution:
+
+* **For RHEL or Fedora:**
+  * `qemu-img`
+  * `cryptsetup` (version 2.3 or higher)
+  * `ntfs-3g-devel` (optional, only needed for unclean NTFS volumes)
+* **For Debian:**
+  * `qemu-utils`
+  * `cryptsetup` (version 2.3 or higher)
+  * `ntfs-3g-dev` (optional, only needed for unclean NTFS volumes)
+
+### Steps
+
+#### 1. Load the NBD Module
+
+Begin by loading the necessary kernel module:
+
+{% code overflow="wrap" %}
+```
+bash modprobe nbd 
+```
+{% endcode %}
+
+#### 2. Mount the VHD/VHDX File
+
+Mount your virtual hard disk file using the following command:
+
+{% code overflow="wrap" %}
+```
+bash qemu-nbd -c /dev/nbd0 <PATH_TO_FILE>.vhd 
+```
+{% endcode %}
+
+If you are working with multiple VHD files, increment the device node appropriately (e.g., `/dev/nbd1`, `/dev/nbd2`, etc.).
+
+#### 3. Identify the BitLocker Encrypted Partition
+
+Determine which partition is encrypted with BitLocker:
+
+{% code overflow="wrap" %}
+```
+bash lsblk
+```
+{% endcode %}
+
+Look for specific partition sizes to identify the BitLocker encrypted partition, typically `/dev/nbd0p2` for the second partition.
+
+#### 4. Open the BitLocker Partition
+
+Use Cryptsetup to open the encrypted partition:
+
+{% code overflow="wrap" %}
+```
+bash cryptsetup bitlkOpen /dev/nbd0p2 my_label
+```
+{% endcode %}
+
+#### 5. Mount the File System
+
+Create a mount point and mount the decrypted partition:
+
+{% code overflow="wrap" %}
+```
+bash mkdir /mnt/mydrive mount /dev/mapper/my_label /mnt/mydrive
+```
+{% endcode %}
+
+#### 6. Fix NTFS Issues (if needed)
+
+If there are NTFS related issues, you can fix them before mounting:
+
+{% code overflow="wrap" %}
+```
+bash ntfsfix -b -d /dev/mapper/my_label
+```
+{% endcode %}
+
+#### 7. Unmount and Close
+
+Finally, unmount the drive and close the BitLocker partition:
+
+{% code overflow="wrap" %}
+```
+bash umount /mnt/mydrive cryptsetup bitlkClose my_label
+```
+{% endcode %}
