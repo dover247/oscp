@@ -10,7 +10,7 @@ sudo nmap 10.129.14.128 -sV -sC -p139,445
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (17) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (17) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### RPCclient
 
@@ -20,7 +20,13 @@ rpcclient -U "" 10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (18) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (18) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+```
+rpcclient -U'%' 10.10.110.17
+```
+
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption><p><code>-U'%'</code>: Explicitly sends an empty username and no password. <code>-N</code>: Does not send any username or password, attempting to establish a null session.</p></figcaption></figure>
 
 | Query                     | Description                                                        |
 | ------------------------- | ------------------------------------------------------------------ |
@@ -44,6 +50,14 @@ smbclient -N -L //$ip/
 cme smb $ip --shares -u "guest" -p ""
 ```
 
+## Brute Forcing
+
+```
+cme smb $ip -u users.list -p pws.list --local-auth | grep '[+]'
+```
+
+<figure><img src="../.gitbook/assets/image (5).png" alt=""><figcaption><p>If the target</p></figcaption></figure>
+
 ## URL File attacks
 
 _Test for URL File attacks by creating a file called "@somename.url" with the following contents, upload, spin up smbserver to capture hash_
@@ -65,6 +79,30 @@ _Run Responder to capture hashes_
 ## Read / Upload access
 
 _Attempt to download and view share contents using valid credential / anonymous login / null session_
+
+```
+smbmap -H $ip
+```
+
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+```
+smbmap -H $ip -r 
+```
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Using <code>smbmap</code> with the <code>-r</code> or <code>-R</code> (recursive) option, one can browse the directories</p></figcaption></figure>
+
+```
+smbmap -H 10.129.14.128 --download "notes\note.txt"
+```
+
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>Downloading</p></figcaption></figure>
+
+```
+smbmap -H 10.129.14.128 --upload test.txt "notes\test.txt"
+```
+
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>Uploading</p></figcaption></figure>
 
 ```
 smbmap -u guest -p "" -H $ip -A '.*' -R
@@ -136,7 +174,11 @@ smbclient //$ip/someshare -U 'guest' -N
 smbclient //$ip/someshare -U 'validuser' -p 'validpass'
 ```
 
+## Smbmap
 
+```
+// Some code
+```
 
 ## Dangerous Settings
 
