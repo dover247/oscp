@@ -52,7 +52,7 @@ dig axfr internal.inlanefreight.htb @10.129.14.128
 ```
 {% endcode %}
 
-<figure><img src="../.gitbook/assets/image (14) (1) (1) (1).png" alt=""><figcaption><p>Using subdomain internal from previous zone transfer on inlanefreight.htb</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (14) (1) (1) (1).png" alt=""><figcaption><p>Using subdomain internal from previous zone transfer on inlanefreight.htb. Also attemp to do zonetransfers and all subdomains.</p></figcaption></figure>
 
 ### **Subdomain Brute Forcing**
 
